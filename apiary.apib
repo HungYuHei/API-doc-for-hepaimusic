@@ -1,0 +1,340 @@
+HOST: http://hepaimusic.com
+
+--- API for hepaimusic.com ---
+---
+
+## API 地址
+
+当前 API 版本为 `v1`
+
+完整访问地址：`http://<web_site>/<version>/<api>`，例如要获取音乐列表：http://hepaimusic.com/v1/music
+
+## Token
+
+Token 需要通过 http header 的 `X-USER-ACCESS-TOKEN` 发送
+
+## 分页
+
+多页 (列表) 时分页参数为： 页码（默认为 1）：`page`，每页记录数量（默认为 10）：`per`  
+
+建议对分页参数显式传值，以免后期默认值可能会修改。
+
+## 图像版本
+
+API 返回的一些地址为原始尺寸，根据不同设备，可能需要在程序中自定义尺寸版本，具体参考：[https://gist.github.com/HungYuHei/6b7743f89a58b342748a](https://gist.github.com/HungYuHei/6b7743f89a58b342748a)
+
+## 其它
+
+旧版本文档: [https://gist.github.com/HungYuHei/5cd346dc8b15776b08d0](https://gist.github.com/HungYuHei/5cd346dc8b15776b08d0)
+
+注意：Rails 中检查的是 `HTTP_X_USER_ACCESS_TOKEN`
+---
+
+--
+用户
+--
+检查用户字段是否存在
+GET /check/user/:field?value=xxx
+< 200
+{
+    "name"    : "用户名",
+    "nickname": "昵称",
+    "email"   : "a@a.com",
+    "avatar"  : "头像图片地址"
+}
+// 不存在则返回 404
+
+黄页（用户列表）
+GET /users
+< 200
+[
+    // 数据参部考「根据 ID 获取用户信息」部分
+    {...},
+    {...}
+]
+
+根据 ID 获取用户信息
+GET  /users/:id
+< 200
+{
+  "id"              : "4ef330f38f0e7b0b5b00001b",
+  "name"            : "用户名",
+  "nickname"        : "昵称",
+  "weibo_name"      : "绑定的新浪微博名",
+  "douban_name"     : "绑定的豆瓣名",
+  "tqq_name"        : "绑定的腾讯微博名",
+  "description"     : "个人简介",
+  "identity"        : "身份",
+  "domains"         : [ "音乐爱好者", "志愿者" ], // 身份领域
+  "tags"            : ["tag1", "tag2"],           // 用户标签
+  "website"         : "个人网址",
+  "province"        : "北京",
+  "city"            : "北京",
+  "following_count" : 4,
+  "followers_count" : 2,
+  "created_at"      : "2011-12-22T21:30:27+08:00"
+  "avatar"          : "头像图片地址",
+}
+
+获取当前登录用户的信息
+GET /me
+< 200
+{ // 数据参部考「根据 ID 获取用户信息」部分 }
+
+关注用户
+POST /user/follow/users/:id
+< 201
+{ // 数据参部考「根据 ID 获取用户信息」部分 }
+
+取消关注用户
+DELETE /user/follow/users/:id
+< 200
+{ // 数据参部考「根据 ID 获取用户信息」部分 }
+
+--
+音乐
+--
+
+音乐列表
+GET /music
+< 200
+[
+    // 数据参部考「根据 ID 获取音乐信息」部分
+    {...},
+    {...}
+]
+
+根据 ID 获取音乐信息
+GET /music/:id
+< 200
+{
+    "id"             : "512f2de982ae477f2f000013",
+    "name"           : "歌名",
+    "description"    : "简介",
+    "type"           : "类型",
+    "genre"          : "曲风",
+    "tags"           : "",
+    "audio_file"     : "音乐文件地址",
+    "cover_url"      : "封面图片地址",
+    "liked"          : false,   // 是否赞过
+    "like_count"     : 1,       // 被赞次数
+    "listen_count"   : 16,      // 收次数听
+    "comments_count" : 1,       // 评论数
+    "hits_count"     : 60,      // 浏览次数
+    "own"            : true,    // 是否本人发布的
+    "created_at"     : "2013-02-28T18:14:02+08:00",
+    "user": {
+      // 此为发布此音乐的用户
+      // 数据请参考「根据 ID 获取用户信息」
+    }
+}
+
+赞音乐
+PUT /user/like/music/:id
+< 200
+{ // 数据请参考「根据 ID 获取音乐信息」}
+
+取消赞音乐
+DELETE /user/like/music/:id
+< 200
+{ // 数据请参考「根据 ID 获取音乐信息」}
+
+获取赞过的音乐列表
+GET /user/liked/music
+< 200
+[
+    { // 数据请参考「根据 ID 获取音乐信息」},
+    {...}
+]
+
+检测 music 是否为赞过
+GET /user/liked/music/:id
+< 200
+{ // 没有赞过则返回 404 }
+
+收藏音乐（列表）
+PUT /user/collect/music/:music_ids
+< 204
+
+取消收藏音乐（列表）
+DELETE /user/collect/music/:music_ids
+< 204
+
+获取已收藏的音乐列表
+GET /user/collected/music
+< 200
+[
+    { // 数据请参考「根据 ID 获取音乐信息」},
+    {...}
+]
+
+--
+评论
+--
+
+获取音乐评论
+GET /music/:id/comments
+< 200
+{
+    "id"         : "51343ce78f0e7b78d6000002",
+    "content"    : "@outsummer 是啊，脸和嗓子像兄妹关系。",
+    "own"        : false, // 是否为登录用户发表的评论
+    "created_at" : "2013-03-04T14:19:19+08:00",
+    "commenter"  : {
+        // 此为发布此评论的用户
+        // 数据请参考「根据 ID 获取用户信息」
+    }
+}
+
+评论信息
+POST /user/comment/posts/:id
+{ content: 'the content of your comment' }
+< 201
+
+评论音乐
+POST /user/comment/music/:id
+{ content: 'the content of your comment' }
+< 201
+
+删除登录用户的评论
+DELETE /user/comments/:id
+< 204
+
+--
+Timeline
+--
+获取登录用户的 Timeline
+
+简单一句话理解就是：
+
+`actor` `action` `target`  
+
+`用户A` `赞` `音乐B`  
+
+`用户C` `发布` `音乐D`
+<table>
+   <tr>
+      <td>字段</td>
+      <td>类型</td>
+      <td>可能的值</td>
+      <td>备注</td>
+   </tr>
+   <tr>
+      <td>action</td>
+      <td>String</td>
+      <td>like, create</td>
+      <td>表示用户「赞」或「发布」</td>
+   </tr>
+   <tr>
+      <td>target_type</td>
+      <td>String</td>
+      <td>music, post</td>
+      <td>用来识别 target 的类型</td>
+   </tr>
+   <tr>
+      <td>target</td>
+      <td>Object</td>
+      <td></td>
+      <td>按 target_type 的值对应是音乐和信息</td>
+   </tr>
+   <tr>
+      <td>actor</td>
+      <td>Object</td>
+      <td></td>
+      <td>实际上就是动作执行者</td>
+   </tr>
+   <tr>
+      <td>likers</td>
+      <td>Array</td>
+      <td></td>
+      <td>赞过这个对象的用户（当 action 的值为 like 才会有这个）</td>
+   </tr>
+</table>
+GET /timeline
+< 200
+{
+    "id"          : "ID",
+    "action"      : "like",
+    "created_at"  : "2013-03-11T11:52:54+08:00",
+    "target_type" : "music",
+    "target": {
+        // 数据请参考「根据 ID 获取音乐信息」
+    },
+    "actor": {
+        // 数据请参考「根据 ID 获取用户信息」
+    },
+    "likers": [
+        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "头像图片地址" },
+        {...}
+    ]
+}
+
+--
+通知
+--
+登录用户未读通知列表
+
+简单一句话理解就是：
+
+`operator.nickname` `operation` `notifiable.type`
+
+`用户A` `赞了你的` `信息`
+GET /user/notifications
+< 200
+[
+    {
+        "id": "50fe60da82ae476f06000005",
+        "operation": "赞了你的",
+        "read": false,
+        "created_at": "2013-01-22T17:50:18+08:00",
+        "operator": {
+            // 数据请参考「根据 ID 获取用户信息」
+        },
+        "notifiable": {
+            "id": "50e402fd82ae473d97000005",
+            "text": "text", // 通知内容
+            "url": "url",   // 通知链接地址
+            "type": "信息"
+        }-
+    },
+    {...}
+]
+
+--
+登录、注册（注意不需加上 API 版本）
+--
+
+登录
+POST  /users/sign_in.json
+{ "user": { "email": "EMAIL", "password": "PWD" } }
+< 200
+// 登录成功：
+{
+  "id"              : "ID",
+  "auth_token"      : "TOKEN",
+  "name"            : "NAME",
+  "nickname"        : "nickname",
+  "avatar"          : "头像图片地址",
+  "description"     : "description",
+  "identity"        : "identity",
+  "domains"         : ["A", "B"],
+  "tags"            : ["C", "D"],
+  "website"         : "http://xxx",
+  "province"        : "",
+  "city"            : "",
+  "following_count" : 3,
+  "followers_count" : 1,
+  "created_at"      : "2012-08-30T19:06:32+08:00",
+  "updated_at"      : "2013-03-13T14:09:41+08:00",
+}
+// 登录失败：
+{ "error": "MESSAGE" }
+
+注册
+POST  /users.json
+{ "user": { "email": "EMAIL", "name": "NAME", "password": "PWD", "password_confirmation": "PWD" } }
+< 200
+// 注册成功：
+{ "auth_token": "TOKEN" }
+// 注册看失败：
+{ "errors" :{"email" : ["邮箱格式不正确"] }} // 其它字段的错误信息类似
