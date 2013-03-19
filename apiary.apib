@@ -105,7 +105,9 @@ GET /music
     {...}
 ]
 
-根据 ID 获取音乐信息
+根据 ID 获取音乐信息  
+参数  
+  liker_limit : 限制返回liker数（默认为 10 ）
 GET /music/:id
 < 200
 {
@@ -127,6 +129,10 @@ GET /music/:id
     "user": {
       // 此为发布此音乐的用户
       // 数据请参考「根据 ID 获取用户信息」
+    },
+    "likers": {
+        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "头像图片地址" },
+        {...}
     }
 }
 
