@@ -23,6 +23,12 @@ Token 需要通过 http header 的 `X-USER-ACCESS-TOKEN` 发送
 
 API 返回的一些地址为原始尺寸，根据不同设备，可能需要在程序中自定义尺寸版本，具体参考：[https://gist.github.com/HungYuHei/6b7743f89a58b342748a](https://gist.github.com/HungYuHei/6b7743f89a58b342748a)
 
+## 用户名和昵称的区别
+
+用户名是全站唯一的，昵称不是  
+用户名长度为 2-12 位，只支持英文、数字及下划线；昵称 2-31 位，支持中文、英文、数字、空格、下划线、「$」、「.」以及「!」  
+**在绝大多数位置应该是显示昵称，在评论中@的是用户名**
+
 ## 其它
 
 旧版本文档: [https://gist.github.com/HungYuHei/5cd346dc8b15776b08d0](https://gist.github.com/HungYuHei/5cd346dc8b15776b08d0)
@@ -193,15 +199,22 @@ GET /music/:id/comments
     }
 }
 
-评论信息
-POST /user/comment/posts/:id
-{ content: 'the content of your comment' }
-< 201
-
 评论音乐
 POST /user/comment/music/:id
 { content: 'the content of your comment' }
 < 201
+{
+    // 评论成功，返回评论内容（参考「获取音乐评论」）
+}
+
+
+评论信息
+POST /user/comment/posts/:id
+{ content: 'the content of your comment' }
+< 201
+{
+    // 评论成功，返回评论内容（参考「获取音乐评论」）
+}
 
 删除登录用户的评论
 DELETE /user/comments/:id
