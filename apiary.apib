@@ -1,4 +1,4 @@
-HOST: http://hepaimusic.com
+HOST: http://hepai.gaiamagic.com
 
 --- API for hepaimusic.com ---
 ---
@@ -98,11 +98,37 @@ DELETE /user/follow/users/:id
 < 200
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
+更新登录用户资料
+PUT /user
+{
+  // 下面的字段都是可选
+  "identity"    : "身份",
+  "domains"     : "身份相关领域",
+  "name"        : "用户名",
+  "nickname"    : "昵称",
+  "website"     : "http://website.com",
+  "description" : "简介",
+  "province"    : "广东",
+  "city"        : "广州"
+}
+< 200
+{ // 数据参部考「根据 ID 获取用户信息」部分 }
+
+根据用户 ID 获取关注/粉丝列表
+GET /users/:id/{followers, followings}
+< 200
+[
+    { // 数据参部考「根据 ID 获取用户信息」部分 },
+    {...}
+]
+
 --
 音乐
 --
 
 音乐列表
+
+可选参数：参考「根据 ID 获取音乐信息」
 GET /music
 < 200
 [
@@ -111,9 +137,13 @@ GET /music
     {...}
 ]
 
-根据 ID 获取音乐信息  
-参数  
-  liker_limit : 限制返回liker数（默认为 10 ）
+根据 ID 获取音乐信息
+
+可选参数：
+
+    without_owner  - 是否返回发布人的信息（默认 false ）
+    without_likers - 是否返回发布人的信息（默认 false ）
+    liker_limit    - 限制返回 liker 数量（默认 10 ）
 GET /music/:id
 < 200
 {
@@ -142,6 +172,16 @@ GET /music/:id
     }
 }
 
+登录用户发布过的音乐
+
+可选参数：参考「根据 ID 获取音乐信息」
+GET /user/music
+< 200
+[
+    { // 数据请参考「根据 ID 获取音乐信息」},
+    {...}
+]
+
 赞音乐
 PUT /user/like/music/:id
 < 200
@@ -153,6 +193,8 @@ DELETE /user/like/music/:id
 { // 数据请参考「根据 ID 获取音乐信息」}
 
 获取赞过的音乐列表
+
+可选参数：参考「根据 ID 获取音乐信息」
 GET /user/liked/music
 < 200
 [
@@ -163,7 +205,7 @@ GET /user/liked/music
 检测 music 是否为赞过
 GET /user/liked/music/:id
 < 200
-{ // 没有赞过则返回 404 }
+{ liked: Boolean }
 
 收藏音乐（列表）
 PUT /user/collect/music/:music_ids
@@ -174,6 +216,8 @@ DELETE /user/collect/music/:music_ids
 < 204
 
 获取已收藏的音乐列表
+
+可选参数：参考「根据 ID 获取音乐信息」
 GET /user/collected/music
 < 200
 [
