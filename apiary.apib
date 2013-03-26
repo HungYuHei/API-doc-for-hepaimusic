@@ -114,6 +114,12 @@ PUT /user
 < 200
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
+更新用户头像
+PUT /user/avatar
+{  avatar: 头像图片}
+< 200
+{ avatar: 新头像地址 }
+
 根据用户 ID 获取关注/粉丝列表
 GET /users/:id/{followers, followings}
 < 200
@@ -121,6 +127,66 @@ GET /users/:id/{followers, followings}
     { // 数据参部考「根据 ID 获取用户信息」部分 },
     {...}
 ]
+
+--
+私信
+--
+私信列表
+获取当前用户私信列表，返回conversation列表，一个用户一个conversation
+GET /messages
+< 200
+{
+    "message_count": "未读信息数量",
+    "conversations": [
+        // conversation列表
+        {...},
+        {...}
+    ]
+}
+
+获取conversation详细信息
+GET /messages/:id
+< 200
+{
+    "id": "id",
+    "target_user_id": "目标conversation用户id",
+    "messages_count": "conversation中message的数量",
+    "last_message": {
+        "id": "message id",
+        "content": "message 正文",
+        "state": "状态: new是未读, read是已读",
+        "destroied_users": "这是一个数组，存的是删除了这条message的用户的id",
+        "sender_id": "发送者的id",
+        "recipient_id": "接受者的id",
+        "conversation_id": "对应conversation的id"
+    },
+    "messages": [
+        // conversation中的message列表，结构同上last_message
+        {...},
+        {...}
+    ]
+}
+
+使用用户ID发送私信
+POST /user/message/users/:id
+< 201
+{
+    "id": "message id",
+    "content": "message 正文",
+    "state": "状态: new是未读, read是已读",
+    "destroied_users": "这是一个数组，存的是删除了这条message的用户的id",
+    "sender_id": "发送者的id",
+    "recipient_id": "接受者的id",
+    "conversation_id": "对应conversation的id" 
+}
+
+按照message id删除message，将该当前id加入到destroied_users
+DELETE /messages/:id
+< 204
+
+按照conversation id删除message, 可删除该conversation下所有的mesasge
+DELETE /messages/conversations/:id
+< 204
 
 --
 音乐
@@ -181,6 +247,14 @@ GET /user/music
     { // 数据请参考「根据 ID 获取音乐信息」},
     {...}
 ]
+
+发布音乐
+POST /user/music
+{ name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', audio: 音频文件, cover: 封面图片 }
+< 200
+{
+    // 返回刚刚发布的音乐，数据请参考「根据 ID 获取音乐信息」
+}
 
 赞音乐
 PUT /user/like/music/:id
@@ -334,9 +408,9 @@ GET /timeline
 }
 
 --
-通知
+消息
 --
-登录用户未读通知列表
+登录用户未读通知列表（这个暂时不要用，有问题的）
 
 简单一句话理解就是：
 
@@ -360,6 +434,24 @@ GET /user/notifications
             "url": "url",   // 通知链接地址
             "type": "信息"
         }-
+    },
+    {...}
+]
+
+评论消息
+GET /user/notifications/comments
+< 200
+[
+    {
+      "id"         : "51358d5482ae470537000002",
+      "read"       : true,
+      "operation"  : "mention", // comment: 评论, mention: 回复
+      "comment_id" : "51358d5482ae470537000001",
+      "content"    : "@abc xxx",
+      "url"        : 原文链接地址,
+      "created_at" : "2013-03-05T14:14:44+08:00",
+      "actor"      : {...}, // 发出评论的人
+      "owner"      : {...}  // 被评论的人
     },
     {...}
 ]
