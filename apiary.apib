@@ -46,7 +46,12 @@ GET /check/user/:field?value=xxx
     "name"    : "用户名",
     "nickname": "昵称",
     "email"   : "a@a.com",
-    "avatar"  : "头像图片地址"
+    avatar: {
+        "24x24": "URL1",
+        "50x50": "URL2",
+        "80x80": "URL3",
+        "150x150": "URL4"
+    }
 }
 // 不存在则返回 404
 
@@ -79,8 +84,13 @@ GET  /users/:id
   "following_count" : 4,
   "followers_count" : 2,
   "created_at"      : "2011-12-22T21:30:27+08:00",
-  "avatar"          : "头像图片地址",
-  "is_following"    : false
+  "is_following"    : false,
+  "avatar"          : {
+    "24x24": "URL1",
+    "50x50": "URL2",
+    "80x80": "URL3",
+    "150x150": "URL4"
+  }
 }
 
 获取当前登录用户的信息
@@ -118,7 +128,14 @@ PUT /user
 PUT /user/avatar
 {  avatar: 头像图片}
 < 200
-{ avatar: 新头像地址 }
+{
+    avatar: {
+        "24x24": "URL1",
+        "50x50": "URL2",
+        "80x80": "URL3",
+        "150x150": "URL4"
+    }
+}
 
 根据用户 ID 获取关注/粉丝列表
 GET /users/:id/{followers, followings}
@@ -131,6 +148,8 @@ GET /users/:id/{followers, followings}
 --
 私信
 --
+私信下所有API都需要登录
+
 私信列表
 获取当前用户私信列表，返回conversation列表，一个用户一个conversation
 GET /messages
@@ -148,17 +167,17 @@ GET /messages
 GET /messages/:id
 < 200
 {
-    "id": "id",
-    "target_user_id": "目标conversation用户id",
-    "messages_count": "conversation中message的数量",
+    "id"                  : "id",
+    "target_user_id"      : "目标conversation用户id",
+    "messages_count"      : "conversation中message的数量",
     "last_message": {
-        "id": "message id",
-        "content": "message 正文",
-        "state": "状态: new是未读, read是已读",
-        "destroied_users": "这是一个数组，存的是删除了这条message的用户的id",
-        "sender_id": "发送者的id",
-        "recipient_id": "接受者的id",
-        "conversation_id": "对应conversation的id"
+        "id"              : "message id",
+        "content"         : "message 正文",
+        "state"           : "状态: new是未读, read是已读",
+        "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
+        "sender_id"       : "发送者的id",
+        "recipient_id"    : "接受者的id",
+        "conversation_id" : "对应conversation的id"
     },
     "messages": [
         // conversation中的message列表，结构同上last_message
@@ -167,26 +186,32 @@ GET /messages/:id
     ]
 }
 
-使用用户ID发送私信
+对目标user发送私信, 如: A向B发送，发送时的ID为B的ID
 POST /user/message/users/:id
 < 201
 {
-    "id": "message id",
-    "content": "message 正文",
-    "state": "状态: new是未读, read是已读",
-    "destroied_users": "这是一个数组，存的是删除了这条message的用户的id",
-    "sender_id": "发送者的id",
-    "recipient_id": "接受者的id",
-    "conversation_id": "对应conversation的id" 
+    "id"              : "message id",
+    "content"         : "message 正文",
+    "state"           : "状态: new是未读, read是已读",
+    "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
+    "sender_id"       : "发送者的id",
+    "recipient_id"    : "接受者的id",
+    "conversation_id" : "对应conversation的id" 
 }
 
 按照message id删除message，将该当前id加入到destroied_users
 DELETE /messages/:id
-< 204
+< 200
+{
+    { deleted: true }
+}
 
 按照conversation id删除message, 可删除该conversation下所有的mesasge
 DELETE /messages/conversations/:id
-< 204
+< 200
+{
+    { deleted: true }
+}
 
 --
 音乐
@@ -220,7 +245,6 @@ GET /music/:id
     "genre"          : "曲风",
     "tags"           : "",
     "audio_file"     : "音乐文件地址",
-    "cover_url"      : "封面图片地址",
     "liked"          : false,   // 是否赞过
     "like_count"     : 1,       // 被赞次数
     "listen_count"   : 16,      // 收次数听
@@ -228,15 +252,32 @@ GET /music/:id
     "hits_count"     : 60,      // 浏览次数
     "own"            : true,    // 是否本人发布的
     "created_at"     : "2013-02-28T18:14:02+08:00",
+    "cover" : {
+        "120x120" : "URL1",
+        "200x200" : "URL2"
+    },
     "user": {
       // 此为发布此音乐的用户
       // 数据请参考「根据 ID 获取用户信息」
     },
     "likers": {
-        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "头像图片地址" },
+        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "参考「根据 ID 获取用户信息」中返回的 avatar" },
         {...}
     }
 }
+
+获取音乐的 likers
+GET /music/:id/likers
+< 200
+[
+    {数据请参考「根据 ID 获取用户信息」},
+    {...}
+]
+
+删除音乐
+DELETE /music/:id
+< 200
+{ deleted: true }
 
 登录用户发布过的音乐
 
@@ -254,6 +295,14 @@ POST /user/music
 < 200
 {
     // 返回刚刚发布的音乐，数据请参考「根据 ID 获取音乐信息」
+}
+
+修改音乐
+PUT /user/music/:id
+{ name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', cover: 封面图片 }
+< 200
+{
+    // 返回修改成功的音乐，数据请参考「根据 ID 获取音乐信息」
 }
 
 赞音乐
@@ -402,7 +451,7 @@ GET /timeline
         // 数据请参考「根据 ID 获取用户信息」
     },
     "likers": [
-        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "头像图片地址" },
+        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "参考「根据 ID 获取用户信息」中返回的 avatar" },
         {...}
     ]
 }
@@ -457,6 +506,21 @@ GET /user/notifications/comments
 ]
 
 --
+用户通知Email设置
+--
+PUT /user/notifications/save
+{ 
+    // 现有三个设置项，设置值1时为打开，0为关闭
+    // message_notification: 私信通知邮件
+    // comment_notification: 评论通知邮件
+    // followed_notification: 新增follower的通知邮件
+    "message_notification": "1",
+    "comment_notification": "1",
+    "followed_notification": "1"
+}
+< 204
+
+--
 登录、注册（注意不需加上 API 版本）
 --
 
@@ -470,7 +534,12 @@ POST  /users/sign_in.json
   "auth_token"      : "TOKEN",
   "name"            : "NAME",
   "nickname"        : "nickname",
-  "avatar"          : "头像图片地址",
+  "avatar"          : {
+    "24x24": "URL1",
+    "50x50": "URL2",
+    "80x80": "URL3",
+    "150x150": "URL4"
+  },
   "description"     : "description",
   "identity"        : "identity",
   "domains"         : ["A", "B"],
