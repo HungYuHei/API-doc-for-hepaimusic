@@ -225,6 +225,39 @@ DELETE /messages/conversations/:id
 }
 
 --
+反馈
+--
+
+新建反馈(需登录)
+POST /feedback
+{ content: "反馈正文" }
+< 201
+{
+    "id":         "feedback的id",
+    "owner_id":   "创建人的id(user)",
+    "content":    "feedback的正文",
+    "reply":      "反馈回复",
+    "replied_at": "反馈回复的日期",
+    "liker_ids":  "赞成该feedback的user id数组"
+}
+
+获取反馈列表
+GET /feedback
+< 200
+[
+    // 内容凊参照列表
+    {...},
+    {...}
+]
+
+赞成反馈(需登录)
+PUT /feedback/:id
+< 200
+{
+    // 此处参照新建的返回
+}
+
+--
 音乐
 --
 
@@ -307,6 +340,16 @@ POST /music
 {
     // 返回刚刚发布的音乐，数据请参考「根据 ID 获取音乐信息」
 }
+
+发布音乐可选的类型
+GET /music/types
+< 200
+[ "原创", "翻唱", "混音", "翻奏", "改编" ]
+
+发布音乐可选的曲风
+GET /music/genres
+< 200
+["流行", "摇滚", "电子", "民谣", "说唱", "爵士", "新世纪", "古典", "世界音乐", "节奏蓝调", "蓝调", "乡村"]
 
 修改音乐
 PUT /music/:id
