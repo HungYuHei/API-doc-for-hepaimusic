@@ -335,7 +335,7 @@ GET /user/music
 
 发布音乐
 POST /music
-{ name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', audio: 音频文件, cover: 封面图片 }
+{ name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', audio: 音频文件, cover: 封面图片, from_app: true }
 < 200
 {
     // 返回刚刚发布的音乐，数据请参考「根据 ID 获取音乐信息」
