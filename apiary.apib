@@ -478,24 +478,6 @@ GET /user/notifications
     {...}
 ]
 
-评论的消息
-GET /user/notifications/comments
-< 200
-[
-    {
-      "id"         : "51358d5482ae470537000002",
-      "read"       : true,
-      "operation"  : "mention", // comment: 评论, mention: 回复
-      "comment_id" : "51358d5482ae470537000001",
-      "content"    : "@abc xxx",
-      "url"        : 原文链接地址,
-      "created_at" : "2013-03-05T14:14:44+08:00",
-      "actor"      : {...}, // 发出评论的人
-      "owner"      : {...}  // 被评论的人
-    },
-    {...}
-]
-
 标记某类别的通知为已读
 
 可以标记单一类别或者多个类别为已读
