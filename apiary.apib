@@ -634,3 +634,37 @@ POST  /users.json
 { "auth_token": "TOKEN" }
 // 注册看失败：
 { "errors" :{"email" : ["邮箱格式不正确"] }} // 其它字段的错误信息类似
+
+--
+分类、Tags
+--
+
+获取所有分类
+GET /categories
+< 200
+[
+    {
+      "id"    : "4f3b6fba8f0e7b7bff000001",
+      "name"  : "志愿者计划",
+      "order" : 1,
+      "title" : "志愿者计划"
+    },
+    {...}
+]
+
+获取分类下的 Tags
+GET /categories/:id/tags
+< 200
+{
+    "id"               : "4fb35b7d82ae47e4b200002b",
+    "name"             : "我要",
+    "multi_selectable" : false,
+    "tags": [
+        {
+          "id": "6ae35b7d82ae47e4b200005g",
+          "name": "卖二手乐器",
+          "order": 1
+        },
+        {...}
+    ]
+}
