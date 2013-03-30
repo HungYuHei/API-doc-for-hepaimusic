@@ -157,107 +157,6 @@ GET /users/:id/{followers, followings}
 ]
 
 --
-私信
-**注意：私信下所有API都需要登录**
---
-
-私信列表
-获取当前用户私信列表，返回conversation列表，一个用户一个conversation
-GET /messages
-< 200
-{
-    "message_count": "未读信息数量",
-    "conversations": [
-        // conversation列表
-        {...},
-        {...}
-    ]
-}
-
-获取conversation详细信息
-GET /messages/:id
-< 200
-{
-    "id"                  : "id",
-    "target_user_id"      : "目标conversation用户id",
-    "messages_count"      : "conversation中message的数量",
-    "last_message": {
-        "id"              : "message id",
-        "content"         : "message 正文",
-        "state"           : "状态: new是未读, read是已读",
-        "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
-        "sender_id"       : "发送者的id",
-        "recipient_id"    : "接受者的id",
-        "conversation_id" : "对应conversation的id"
-    },
-    "messages": [
-        // conversation中的message列表，结构同上last_message
-        {...},
-        {...}
-    ]
-}
-
-对目标user发送私信, 如: A向B发送，发送时的ID为B的ID
-POST /user/message/users/:id
-< 201
-{
-    "id"              : "message id",
-    "content"         : "message 正文",
-    "state"           : "状态: new是未读, read是已读",
-    "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
-    "sender_id"       : "发送者的id",
-    "recipient_id"    : "接受者的id",
-    "conversation_id" : "对应conversation的id" 
-}
-
-按照message id删除message，将该当前id加入到destroied_users
-DELETE /messages/:id
-< 200
-{
-    { deleted: true }
-}
-
-按照conversation id删除message, 可删除该conversation下所有的mesasge
-DELETE /messages/conversations/:id
-< 200
-{
-    { deleted: true }
-}
-
---
-反馈
---
-
-新建反馈(需登录)
-POST /feedback
-{ content: "反馈正文" }
-< 201
-{
-    "id":         "feedback的id",
-    "owner_id":   "创建人的id(user)",
-    "content":    "feedback的正文",
-    "reply":      "反馈回复",
-    "replied_at": "反馈回复的日期",
-    "liker_ids":  "赞成该feedback的user id数组"
-}
-
-获取反馈列表
-GET /feedback
-< 200
-[
-    // 内容凊参照列表
-    {...},
-    {...}
-]
-
-赞成反馈(需登录)
-PUT /feedback/:id
-< 200
-{
-    // 此处参照新建的返回
-}
-
---
 音乐
 --
 
@@ -634,6 +533,107 @@ POST  /users.json
 { "auth_token": "TOKEN" }
 // 注册看失败：
 { "errors" :{"email" : ["邮箱格式不正确"] }} // 其它字段的错误信息类似
+
+--
+私信
+**注意：私信下所有API都需要登录**
+--
+
+私信列表
+获取当前用户私信列表，返回conversation列表，一个用户一个conversation
+GET /messages
+< 200
+{
+    "message_count": "未读信息数量",
+    "conversations": [
+        // conversation列表
+        {...},
+        {...}
+    ]
+}
+
+获取conversation详细信息
+GET /messages/:id
+< 200
+{
+    "id"                  : "id",
+    "target_user_id"      : "目标conversation用户id",
+    "messages_count"      : "conversation中message的数量",
+    "last_message": {
+        "id"              : "message id",
+        "content"         : "message 正文",
+        "state"           : "状态: new是未读, read是已读",
+        "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
+        "sender_id"       : "发送者的id",
+        "recipient_id"    : "接受者的id",
+        "conversation_id" : "对应conversation的id"
+    },
+    "messages": [
+        // conversation中的message列表，结构同上last_message
+        {...},
+        {...}
+    ]
+}
+
+对目标user发送私信, 如: A向B发送，发送时的ID为B的ID
+POST /user/message/users/:id
+< 201
+{
+    "id"              : "message id",
+    "content"         : "message 正文",
+    "state"           : "状态: new是未读, read是已读",
+    "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
+    "sender_id"       : "发送者的id",
+    "recipient_id"    : "接受者的id",
+    "conversation_id" : "对应conversation的id" 
+}
+
+按照message id删除message，将该当前id加入到destroied_users
+DELETE /messages/:id
+< 200
+{
+    { deleted: true }
+}
+
+按照conversation id删除message, 可删除该conversation下所有的mesasge
+DELETE /messages/conversations/:id
+< 200
+{
+    { deleted: true }
+}
+
+--
+反馈
+--
+
+新建反馈(需登录)
+POST /feedback
+{ content: "反馈正文" }
+< 201
+{
+    "id":         "feedback的id",
+    "owner_id":   "创建人的id(user)",
+    "content":    "feedback的正文",
+    "reply":      "反馈回复",
+    "replied_at": "反馈回复的日期",
+    "liker_ids":  "赞成该feedback的user id数组"
+}
+
+获取反馈列表
+GET /feedback
+< 200
+[
+    // 内容凊参照列表
+    {...},
+    {...}
+]
+
+赞成反馈(需登录)
+PUT /feedback/:id
+< 200
+{
+    // 此处参照新建的返回
+}
 
 --
 分类、Tags
