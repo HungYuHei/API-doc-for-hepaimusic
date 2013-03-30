@@ -424,35 +424,61 @@ GET /timeline
 --
 消息
 --
-登录用户未读通知列表（这个暂时不要用，有问题的）
+登录用户未读通知列表
+
+------
+
+**可选**参数：`types`，表示某类别的通知，不传此值表示所有未读通知
+
+`types` 值：
+
+    comment - 评论
+    mention - 回复评论
+    message - 私信
+    follow  - 关注
+    like    - 赞
+
+------
 
 简单一句话理解就是：
 
-`operator.nickname` `operation` `notifiable.type`
+`actor.nickname` `operation` 你的 `notifiable.type`
 
-`用户A` `赞了你的` `信息`
+`用户A` `赞了` 你的 `音乐`
+
+------
+
+operation 对应的描述：
+
+    comment : 评论
+    mention : 回复（即包含 @xxx 的评论）
+    message : 私信
+    follow  : 关注
+    like    : 赞
+
 GET /user/notifications
+{ types: 'comment' } // 单一类别
+{ types: ['comment', 'mention', 'message', 'follow', 'like'] } // 多个类别
 < 200
 [
     {
-        "id": "50fe60da82ae476f06000005",
-        "operation": "赞了你的",
-        "read": false,
-        "created_at": "2013-01-22T17:50:18+08:00",
-        "operator": {
-            // 数据请参考「根据 ID 获取用户信息」
+        "id"         : "50fe60da82ae476f06000005",
+        "operation"  : "like", // 可能的值：(comment mention message follow like)
+        "read"       : false,
+        "created_at" : "2013-01-22T17:50:18+08:00",
+        "notifiable" : {
+            "id"      : "2ge402fd82ae473d97000013",
+            "content" : "text",  // 通知内容
+            "url"     : "url",   // 通知链接地址
+            "type"    : "music"
         },
-        "notifiable": {
-            "id": "50e402fd82ae473d97000005",
-            "text": "text", // 通知内容
-            "url": "url",   // 通知链接地址
-            "type": "信息"
-        }-
+        "actor"      : {...},
+        "owner"      : {...}
     },
     {...}
 ]
 
-评论消息
+评论的消息
 GET /user/notifications/comments
 < 200
 [
