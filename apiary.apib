@@ -502,18 +502,6 @@ PUT /user/notifications/save
 }
 < 204
 
-__
-Search查找
---
-{ "q": "查找关键字", c: "分类，请在[User, Post, Music]中选一个，注意大小写"}
-GET /search
-< 200
-[
-    // 此处为User, Post, Music的json返回集合，为了区分，json中加入了klass关键字，和上面分类中的提示一致
-    {...},
-    {...}
-]
-
 --
 登录、注册（注意不需加上 API 版本）
 --
