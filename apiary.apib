@@ -94,6 +94,14 @@ GET /me
 < 200
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
+GET /users/:id/douban_info
+< 200
+{ // 返回douban绑定时返回的数据，可能会有变动，请参考实际返回数据 }
+
+GET /users/:id/weibo_info
+< 200
+{ // 返回weibo绑定时返回的数据，可能会有变动，请参考实际返回数据 }
+
 关注用户
 POST /user/follow/users/:id
 < 201
@@ -493,7 +501,7 @@ GET /user/notifications
     message - 私信
     follow  - 关注
     like    - 赞
-PUT /user/notifications/mark_all_as_read
+PUT /user/notifications
 { types: 'comment' } // 单一类别
 { types: ['comment', 'mention', 'message', 'follow', 'like'] } // 多个类别
 < 200
@@ -588,8 +596,8 @@ GET /messages/:id
         "content"         : "message 正文",
         "state"           : "状态: new是未读, read是已读",
         "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
-        "sender_id"       : "发送者的id",
-        "recipient_id"    : "接受者的id",
+        "sender"          : "发送者的json(user,参照user返回的json)",
+        "recipient"       : "接受者的json(user,参照user返回的json)",
         "conversation_id" : "对应conversation的id"
     },
     "messages": [
@@ -607,8 +615,8 @@ POST /user/message/users/:id
     "content"         : "message 正文",
     "state"           : "状态: new是未读, read是已读",
     "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
-    "sender_id"       : "发送者的id",
-    "recipient_id"    : "接受者的id",
+    "sender"          : "发送者的json(user,参照user返回的json)",
+    "recipient"       : "接受者的json(user,参照user返回的json)",
     "conversation_id" : "对应conversation的id" 
 }
 
