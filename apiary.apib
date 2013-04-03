@@ -488,12 +488,21 @@ GET /user/notifications
     {...}
 ]
 
-标记某类别的通知为已读
+批量标记通知为已读
+
 ------
 
-可以标记单一类别或者多个类别为已读
+可以标记 `指定id数组` 或者 `单一类别` 或者 `多个类别` 为已读
 
-**必需传递的参数**：`types`
+如果不传任何参数，就表示：将登录用户的所有未读通知都标记为已读
+
+**注意**：如果同时传入 `ids` 和 `types`，只会处理 `ids` 而忽略 `types` 参数
+
+----
+
+可选的参数：`ids` 或 `types` ：
+
+`ids` ：要标记的通知 id 集合
 
 `types` 值：
 
@@ -503,6 +512,7 @@ GET /user/notifications
     follow  - 关注
     like    - 赞
 PUT /user/notifications
+{ ids: ['id1', 'id2'] }
 { types: 'comment' } // 单一类别
 { types: ['comment', 'mention', 'message', 'follow', 'like'] } // 多个类别
 < 200
