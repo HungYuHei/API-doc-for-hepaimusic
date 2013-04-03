@@ -505,7 +505,12 @@ PUT /user/notifications
 { types: 'comment' } // 单一类别
 { types: ['comment', 'mention', 'message', 'follow', 'like'] } // 多个类别
 < 200
-{ marked: true }
+{ read: true }
+
+标记单条通知为已读
+PUT /user/notifications/:id
+< 200
+{ read: true }
 
 --
 用户通知Email设置
