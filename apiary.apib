@@ -33,7 +33,7 @@ Token 需要通过 http header 的 `X-USER-ACCESS-TOKEN` 发送
 ---
 
 --
-用户
+User 用户
 --
 检查用户字段是否存在
 GET /check/user/:field?value=xxx
@@ -165,7 +165,7 @@ GET /users/:id/{followers, followings}
 ]
 
 --
-音乐
+Music 音乐
 --
 
 音乐列表
@@ -310,7 +310,7 @@ GET /user/collected/music
 ]
 
 --
-评论
+Comment 评论
 --
 
 获取音乐评论
@@ -349,7 +349,7 @@ DELETE /user/comments/:id
 < 204
 
 --
-Search查找
+Search 查找
 --
 { "q": "查找关键字", c: "分类，请在[User, Post, Music]中选一个，注意大小写"}
 GET /search
@@ -361,7 +361,7 @@ GET /search
 ]
 
 --
-Timeline
+Timeline 时间线
 --
 获取登录用户的 Timeline
 
@@ -430,7 +430,7 @@ GET /timeline
 }
 
 --
-消息
+Notification 通知
 --
 登录用户未读通知列表
 
@@ -539,7 +539,7 @@ PUT /user/notifications/setting
 < 204
 
 --
-登录、注册（注意不需加上 API 版本）
+Session 登录、注册（注意不需加上 API 版本）
 --
 
 登录
@@ -583,9 +583,9 @@ POST  /users.json
 { "errors" :{"email" : ["邮箱格式不正确"] }} // 其它字段的错误信息类似
 
 --
-私信
-**注意：私信下所有API都需要登录**
+Message 私信
 --
+**注意：私信下所有API都需要登录**
 
 私信列表
 获取当前用户私信列表，返回conversation列表，一个用户一个conversation
@@ -651,7 +651,7 @@ DELETE /messages/conversations/:id
 }
 
 --
-反馈
+Feedback 反馈
 --
 
 新建反馈(需登录)
@@ -684,7 +684,7 @@ PUT /feedback/:id
 }
 
 --
-分类、Tags
+Taxonomy 分类、Tags
 --
 
 获取所有分类
