@@ -432,14 +432,14 @@ GET /timeline
 --
 Notification 通知
 --
-登录用户通知列表
+获取登录用户通知列表
 
 ------
 **可选**参数：
 
-`from_app` : true （APP 的请求需要加上这个）
+`from_app` : *true* （APP 的请求需要加上这个）
 
-`state` : `unread` 时表示只获取未读通知，`read` 为只获取已读通知，不传此值则是获取所有通知
+`state` : *unread* 时表示只获取未读通知，*read* 为只获取已读通知，不传此值则是获取所有通知
 
 `types`，表示某类别的通知，多个类别通过 Array 传入，不传此值表示所有未读通知。
 `types` 值：
