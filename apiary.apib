@@ -89,10 +89,19 @@ GET  /users/:id
   }
 }
 
+获取个人动态
+GET /user/activities
+< 200
+[
+  // 参考 Timeline，但这里不返回 actor
+  {...},
+  {...}
+]
+
 获取当前登录用户的信息
 GET /user
 < 200
-{ // 数据参部考「根据 ID 获取用户信息」部分 }
+{ // 数据参考「根据 ID 获取用户信息」部分 }
 
 GET /users/:id/douban_info
 < 200
@@ -599,8 +608,8 @@ DELETE /users/sign_out.json
 
 --
 Message 私信
---
 **注意：私信下所有API都需要登录**
+--
 
 私信列表
 获取当前用户私信列表，返回conversation列表，一个用户一个conversation
