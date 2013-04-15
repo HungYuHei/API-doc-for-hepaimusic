@@ -150,6 +150,12 @@ PUT /user/avatar
     }
 }
 
+更新用户邮箱
+PUT /user/email
+{ current_email: '当前邮箱', email: '新邮箱', password_confirmation: '确认密码' }
+< 200
+{ updated: true }
+
 修改密码
 PUT /user/password
 { current_password: "当前密码", password: "新密码", password_confirmation: "新密码" }
