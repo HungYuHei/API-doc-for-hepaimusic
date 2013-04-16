@@ -334,6 +334,8 @@ Comment 评论
 --
 
 获取音乐评论
+
+分页参数是对评论进行分页
 GET /music/:id/comments
 < 200
 {
@@ -347,8 +349,15 @@ GET /music/:id/comments
     }
 }
 
+获取信息评论
+
+分页参数是对评论进行分页
+GET /posts/:id/comments
+< 200
+{ // 数据请参考「获取音乐评论」}
+
 评论音乐
-POST /user/comment/music/:id
+POST /music/:id/comments
 { content: 'the content of your comment' }
 < 201
 {
@@ -357,7 +366,7 @@ POST /user/comment/music/:id
 
 
 评论信息
-POST /user/comment/posts/:id
+POST /posts/:id/comments
 { content: 'the content of your comment' }
 < 201
 {
@@ -365,7 +374,7 @@ POST /user/comment/posts/:id
 }
 
 删除登录用户的评论
-DELETE /user/comments/:id
+DELETE /comments/:id
 < 204
 
 --
