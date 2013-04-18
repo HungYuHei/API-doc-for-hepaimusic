@@ -377,7 +377,15 @@ POST /posts/:id/comments
 }
 
 删除登录用户的评论
-DELETE /comments/:id
+
+----
+
+参数说明：
+
+    commentable    : posts 或者 music
+    commentable_id : posts 或者 music 的 id
+    comment_id     : 要删除的评论 id
+DELETE /:commentable/:commentable_id/comments/:comment_id
 < 204
 
 --
