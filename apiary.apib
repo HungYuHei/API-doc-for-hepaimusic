@@ -95,7 +95,7 @@ GET  /users/:id_or_name
 GET /users/:id/activities
 < 200
 [
-  // 参考 Timeline，但这里不返回 actor
+  // 参考 /activities，但这里不返回 actor
   {...},
   {...}
 ]
@@ -450,7 +450,7 @@ Timeline 时间线
       <td>赞过这个对象的用户（当 action 的值为 like 才会有这个）</td>
    </tr>
 </table>
-GET /timeline
+GET /activities
 < 200
 {
     "id"          : "ID",
