@@ -573,7 +573,7 @@ Notification-Setting 用户通知设置
 --
 
 获取用户通知设置
-GET /user/notifications/setting
+GET /user/settings/notification
 < 200
 { 
     "message_notification"  : true,
@@ -582,7 +582,7 @@ GET /user/notifications/setting
 }
 
 更新用户通知设置
-PUT /user/notifications/setting
+PUT /user/settings/notification
 {
     true 时为打开，false 为关闭
     "message_notification"  : true,   // 私信通知邮件
