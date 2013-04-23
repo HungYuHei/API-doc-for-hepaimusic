@@ -650,8 +650,9 @@ Message 私信
 **注意：私信下所有API都需要登录**
 --
 
-私信列表
-获取当前用户私信列表，返回conversation列表，一个用户一个conversation
+获取登录用户的对话列表
+
+按不同的对话用户分组，一个用户一个对话
 GET /messages
 < 200
 {
@@ -663,8 +664,8 @@ GET /messages
     ]
 }
 
-获取conversation详细信息
-GET /messages/:id
+获取与某个用户的对话
+GET /messages/:user_id
 < 200
 {
     "id"                  : "id",
@@ -686,8 +687,8 @@ GET /messages/:id
     ]
 }
 
-对目标user发送私信, 如: A向B发送，发送时的ID为B的ID
-POST /user/message/users/:id
+发送私信给某个用户
+POST /message/:user_id
 < 201
 {
     "id"              : "message id",
@@ -699,19 +700,15 @@ POST /user/message/users/:id
     "conversation_id" : "对应conversation的id" 
 }
 
-按照message id删除message，将该当前id加入到destroied_users
-DELETE /messages/:id
+删除与某个用户的整个对话（即对话下的所有私信）
+DELETE /messages/:user_id
 < 200
-{
-    { deleted: true }
-}
+{ deleted: true }
 
-按照conversation id删除message, 可删除该conversation下所有的mesasge
-DELETE /messages/conversations/:id
+删除与某个用户对话下的具体某条私信
+DELETE /messages/:user_id/:message_id
 < 200
-{
-    { deleted: true }
-}
+{ deleted: true }
 
 --
 Feedback 反馈
