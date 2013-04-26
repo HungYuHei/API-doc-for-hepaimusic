@@ -496,7 +496,6 @@ Notification 通知
 `types` 值：
 
     comment - 评论
-    mention - 回复评论
     message - 私信
     follow  - 关注
     like    - 赞
@@ -514,19 +513,18 @@ Notification 通知
 operation 对应的描述：
 
     comment : 评论
-    mention : 回复（即包含 @xxx 的评论）
     message : 私信
     follow  : 关注
     like    : 赞
 
 GET /user/notifications
 { types: 'comment' } // 单一类别
-{ types: ['comment', 'mention', 'message', 'follow', 'like'] } // 多个类别
+{ types: ['comment', 'message', 'follow', 'like'] } // 多个类别
 < 200
 [
     {
         "id"         : "50fe60da82ae476f06000005",
-        "operation"  : "like", // 可能的值：(comment mention message follow like)
+        "operation"  : "like", // 可能的值：(comment message follow like)
         "read"       : false,
         "created_at" : "2013-01-22T17:50:18+08:00",
         "notifiable" : {
@@ -560,14 +558,13 @@ GET /user/notifications
 `types` 值：
 
     comment - 评论
-    mention - 回复评论
     message - 私信
     follow  - 关注
     like    - 赞
 PUT /user/notifications
 { ids: ['id1', 'id2'] }
 { types: 'comment' } // 单一类别
-{ types: ['comment', 'mention', 'message', 'follow', 'like'] } // 多个类别
+{ types: ['comment', 'message', 'follow', 'like'] } // 多个类别
 < 200
 { read: true }
 
