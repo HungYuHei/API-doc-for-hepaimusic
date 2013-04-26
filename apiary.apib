@@ -340,12 +340,18 @@ GET /user/collected/music
 
 --
 Comment 评论
+
+评论分为： **直接评论主题（音乐或信息）的评论** 和 **回复某评论的评论**
 --
 
-获取音乐评论
+获取 {音乐, 信息} 评论
 
 分页参数是对评论进行分页
-GET /music/:id/comments
+
+**注意：**  
+列表只返回直接评论音乐的评论  
+如果要返回所以评论（包括回复的），可以传入参数 `with_replies: true`
+GET /{music, posts}/:id/comments
 < 200
 {
     "id"         : "51343ce78f0e7b78d6000002",
@@ -358,40 +364,37 @@ GET /music/:id/comments
     }
 }
 
-获取信息评论
+获取某条评论的所有回复
 
-分页参数是对评论进行分页
-GET /posts/:id/comments
+`commentable_id` : posts 或者 music 的 id
+GET /{music, posts}/:commentable_id/comments/:comment_id/replies
 < 200
-{ // 数据请参考「获取音乐评论」}
+[
+    { // 数据参考「获取 {音乐, 信息} 评论」 },
+    {...}
+]
 
-评论音乐
-POST /music/:id/comments
-{ content: 'the content of your comment' }
+评论 {音乐, 信息}
+
+如果是回复某条评论，将该评论 id 通过 `reply_to` 传入
+
+**注意：** 回复的那条评论必须也是属于**同一个音乐**的
+POST /{music, posts}/:id/comments
+{ content: 'the content of your comment', reply_to: 'comment_id' }
 < 201
 {
     // 评论成功，返回评论内容（参考「获取音乐评论」）
 }
 
-
-评论信息
-POST /posts/:id/comments
-{ content: 'the content of your comment' }
-< 201
-{
-    // 评论成功，返回评论内容（参考「获取音乐评论」）
-}
-
-删除登录用户的评论
+删除登录用户的某条评论
 
 ----
 
 参数说明：
 
-    commentable    : posts 或者 music
     commentable_id : posts 或者 music 的 id
     comment_id     : 要删除的评论 id
-DELETE /:commentable/:commentable_id/comments/:comment_id
+DELETE /{music, posts}/:commentable_id/comments/:comment_id
 < 204
 
 --
