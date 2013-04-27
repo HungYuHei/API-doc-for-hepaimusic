@@ -660,27 +660,23 @@ Message 私信
 按不同的对话用户分组，一个用户一个对话
 GET /messages
 < 200
-{
-    "message_count": "未读信息数量",
-    "conversations": [
-        // conversation列表
-        {...},
-        {...}
-    ]
-}
+[
+    // conversation列表
+    {...},
+    {...}
+]
 
 获取与某个用户的对话
 GET /messages/:user_id
 < 200
 {
     "id"                  : "id",
-    "target_user_id"      : "目标conversation用户id",
+    "target_user"         : "目标conversation用户json, 参见user",
     "messages_count"      : "conversation中message的数量",
     "last_message": {
         "id"              : "message id",
         "content"         : "message 正文",
         "state"           : "状态: new是未读, read是已读",
-        "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
         "actor"           : "发送者的json(user,参照user返回的json)",
         "recipient"       : "接受者的json(user,参照user返回的json)",
         "conversation_id" : "对应conversation的id"
@@ -699,7 +695,6 @@ POST /messages/:user_id
     "id"              : "message id",
     "content"         : "message 正文",
     "state"           : "状态: new是未读, read是已读",
-    "destroied_users" : "这是一个数组，存的是删除了这条message的用户的id",
     "actor"           : "发送者的json(user,参照user返回的json)",
     "recipient"       : "接受者的json(user,参照user返回的json)",
     "conversation_id" : "对应conversation的id" 
