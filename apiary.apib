@@ -724,20 +724,19 @@ POST /feedback
 { content: "反馈正文" }
 < 201
 {
-    "id":         "feedback的id",
-    "owner_id":   "创建人的id(user)",
-    "content":    "feedback的正文",
-    "reply":      "反馈回复",
-    "replied_at": "反馈回复的日期",
-    "liker_ids":  "赞成该feedback的user id数组"
+    "id"         : "feedback的id",
+    "content"    : "feedback的正文",
+    "reply"      : "反馈回复",
+    "replied_at" : "反馈回复的日期",
+    "liker_ids"  : "赞成该feedback的user id数组",
+    "owner"      : {...}
 }
 
 获取反馈列表
 GET /feedback
 < 200
 [
-    // 内容凊参照列表
-    {...},
+    { // 内容参照新建反馈 },
     {...}
 ]
 
@@ -745,7 +744,7 @@ GET /feedback
 PUT /feedback/:id
 < 200
 {
-    // 此处参照新建的返回
+    // 内容参照新建反馈,
 }
 
 --
