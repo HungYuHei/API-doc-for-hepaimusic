@@ -662,18 +662,21 @@ GET /messages
 < 200
 [
     // conversation列表
-    {...},
+    {
+        "id"             : "conversation id",
+        "target_user"    : "接受者的json(user,参照user返回的json)",
+        "last_message"   : "最后一条message的json(message,参照下面message返回的json)",
+        "messages_count" : "该对话下message数量的总数"
+    },
     {...}
 ]
 
-获取与某个用户的对话
-GET /messages/:user_id
+根据user的id或者name获取当前用户与某个用户的对话
+GET /messages/:id_or_name
 < 200
-{
-    "id"                  : "id",
-    "target_user"         : "目标conversation用户json, 参见user",
-    "messages_count"      : "conversation中message的数量",
-    "last_message": {
+[
+    // conversation中的message列表
+    {
         "id"              : "message id",
         "content"         : "message 正文",
         "state"           : "状态: new是未读, read是已读",
@@ -681,15 +684,12 @@ GET /messages/:user_id
         "recipient"       : "接受者的json(user,参照user返回的json)",
         "conversation_id" : "对应conversation的id"
     },
-    "messages": [
-        // conversation中的message列表，结构同上last_message
-        {...},
-        {...}
-    ]
-}
+    {...}
+]
 
-发送私信给某个用户
-POST /messages/:user_id
+根据user的id或者name发送私信给某个用户，发送人将设置为当前用户
+POST /messages/:id_or_name
+{ "message": { "content": "message正文" } }
 < 201
 {
     "id"              : "message id",
@@ -700,13 +700,13 @@ POST /messages/:user_id
     "conversation_id" : "对应conversation的id" 
 }
 
-删除与某个用户的整个对话（即对话下的所有私信）
-DELETE /messages/:user_id
+根据user的id或者name删除当前用户与某个用户的整个对话（即对话下的所有私信）
+DELETE /messages/:id_or_name
 < 200
 { deleted: true }
 
-删除与某个用户对话下的具体某条私信
-DELETE /messages/:user_id/:message_id
+根据user的id或者name删除当前用户与某个用户对话下的具体某条私信
+DELETE /messages/:id_or_name/:message_id
 < 200
 { deleted: true }
 
