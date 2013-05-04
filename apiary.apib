@@ -288,6 +288,9 @@ POST /music
 }
 
 修改音乐
+
+注意：`published` 只能从 `false` 修改为 `true`   
+即一旦公开了，不能再修改为非公开
 PUT /music/:id
 { name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', cover: 封面图片, audio: 音频文件, from_app: true, published: false }
 < 200
