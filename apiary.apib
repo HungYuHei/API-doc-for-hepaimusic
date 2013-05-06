@@ -202,6 +202,22 @@ GET /music
     {...}
 ]
 
+指定用户发布过的所有音乐（只返回公开的音乐）
+
+可选参数：
+
+    without_owner  - 不返回发布人的信息（默认 true ）
+    without_likers - 不返回 likers 的信息（默认 true ）
+    liker_limit    - 限制返回 liker 数量（默认 10 ）
+GET /users/:id_or_name/music
+< 200
+[
+    { // 数据请参考「根据 ID 获取音乐信息」},
+    {...},
+    {...}
+]
+
+
 根据 ID 获取音乐信息
 
 ----
