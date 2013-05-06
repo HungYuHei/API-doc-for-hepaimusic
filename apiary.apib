@@ -210,8 +210,8 @@ GET /music
 
 可选参数：
 
-    without_owner  - 是否返回发布人的信息（默认 false ）
-    without_likers - 是否返回 likers 的信息（默认 false ）
+    without_owner  - 不返回发布人的信息（默认 false ）
+    without_likers - 不返回 likers 的信息（默认 false ）
     liker_limit    - 限制返回 liker 数量（默认 10 ）
 GET /music/:id
 < 200
@@ -263,8 +263,8 @@ DELETE /music/:id
 
 可选参数：
 
-    without_owner  - 是否返回发布人的信息（默认 false ）
-    without_likers - 是否返回 likers 的信息（默认 false ）
+    without_owner  - 不返回发布人的信息（默认 true ）
+    without_likers - 不返回 likers 的信息（默认 true ）
     liker_limit    - 限制返回 liker 数量（默认 10 ）
 GET /user/music
 < 200
