@@ -324,27 +324,27 @@ PUT /music/:id
 }
 
 赞音乐
-PUT /user/like/music/:id
+PUT /music/:id/like
 < 200
 { // 数据请参考「根据 ID 获取音乐信息」}
 
 取消赞音乐
-DELETE /user/like/music/:id
+DELETE /music/:id/like
 < 200
 { // 数据请参考「根据 ID 获取音乐信息」}
 
 获取赞过的音乐列表
 
 可选参数：参考「根据 ID 获取音乐信息」
-GET /user/liked/music
+GET music/liked
 < 200
 [
     { // 数据请参考「根据 ID 获取音乐信息」},
     {...}
 ]
 
-检测 music 是否为赞过
-GET /user/liked/music/:id
+检测 music 是否被登录用户赞过
+GET /music/:id/liked
 < 200
 { liked: Boolean }
 
