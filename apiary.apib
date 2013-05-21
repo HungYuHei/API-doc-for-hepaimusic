@@ -160,6 +160,8 @@ PUT /user/avatar
 }
 
 更新用户邮箱
+
+注意：更新后，会发送确认邮件到新邮箱地址，需要用户点击邮件中的确认链接才能完成更新操作。
 PUT /user/email
 { email: '新邮箱', current_password: '确认密码' }
 < 200
