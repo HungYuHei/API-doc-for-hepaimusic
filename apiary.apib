@@ -129,10 +129,17 @@ DELETE /user/following/:user_id
 < 200
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
-更新登录用户资料
+修改用户个人资料/邮箱/密码
+
+注意：
+
+* 如果要修改邮箱或密码，需要传入当前密码，修改个人资料则不需要
+* 三个操作可以同时进行，只要传入对应的必须字段
+* 如果修改了邮箱，系统会发送确认邮件到新邮箱地址，需要用户点击邮件中的确认链接才能最终完成更新邮箱操作。
+
 PUT /user
 {
-  // 下面的字段都是可选
+  // 以下的个人资料字段任意可选
   "identity"      : "身份",
   "domains"       : "身份相关领域",
   "name"          : "用户名",
@@ -141,7 +148,16 @@ PUT /user
   "description"   : "简介",
   "province"      : "广东",
   "city"          : "广州",
-  "personal_page" : "详细介绍"
+  "personal_page" : "详细介绍",
+
+  // 修改密码必须传入的字段
+  "password"              : "新密码",
+  "password_confirmation" : "重复确认新密码",
+  "current_password"      : "确认密码（当前密码）",
+
+  // 修改邮箱必须传入的字段
+  "email"            : '新邮箱',
+  "current_password" : '确认密码（当前密码）'
 }
 < 200
 { // 数据参部考「根据 ID 获取用户信息」部分 }
@@ -157,29 +173,6 @@ PUT /user/avatar
         "80x80": "URL3",
         "150x150": "URL4"
     }
-}
-
-更新用户邮箱
-
-注意：更新后，会发送确认邮件到新邮箱地址，需要用户点击邮件中的确认链接才能完成更新操作。
-PUT /user/email
-{ email: '新邮箱', current_password: '确认密码' }
-< 200
-{ updated: true }
-
-修改密码
-PUT /user/password
-{ current_password: "当前密码", password: "新密码", password_confirmation: "新密码" }
-< 200
-{ updated: true }
-// 修改失败时：
-{
-    password: [
-        "两次输入的密码不一致"
-    ],
-    current_password: [
-        "是无效的"
-    ]
 }
 
 根据用户 ID 获取关注/粉丝列表
