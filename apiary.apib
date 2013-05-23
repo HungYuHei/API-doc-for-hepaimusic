@@ -314,12 +314,12 @@ PUT /music/:id
 }
 
 赞音乐
-PUT /user/like/music/:id
+PUT /user/liked/music/:music_id
 < 200
 { // 数据请参考「根据 ID 获取音乐信息」}
 
 取消赞音乐
-DELETE /user/like/music/:id
+DELETE /user/liked/music/:music_id
 < 200
 { // 数据请参考「根据 ID 获取音乐信息」}
 
