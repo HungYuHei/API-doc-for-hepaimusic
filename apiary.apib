@@ -113,17 +113,17 @@ GET /users/:id/weibo_info
 { // 返回weibo绑定时返回的数据，可能会有变动，请参考实际返回数据 }
 
 检查是否关注了用户
-GET /user/following/:user_id
+GET /user/following/:user_id_or_name
 < 200
 // 已关注返回204，未关注返回404
 
 关注用户
-PUT /user/following/:user_id
+PUT /user/following/:user_id_or_name
 < 201
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
 取消关注用户
-DELETE /user/following/:user_id
+DELETE /user/following/:user_id_or_name
 < 200
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
