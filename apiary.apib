@@ -613,10 +613,15 @@ PUT /user/settings/notification
     true 时为打开，false 为关闭
     "message_notification"  : true,   // 私信通知邮件
     "comment_notification"  : true,   // 评论通知邮件
-    "followed_notification" : true    // 新增follower的通知邮件
+    "followed_notification" : true    // 有新关注通知邮件
 }
 < 200
-{ updated: true }
+{
+    // 返回更新后的通知设置
+    "message_notification"  : true,
+    "comment_notification"  : true,
+    "followed_notification" : true
+}
 
 --
 Session 登录、注册（注意不需加上 API 版本）
