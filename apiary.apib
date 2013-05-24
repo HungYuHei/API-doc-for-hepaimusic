@@ -104,7 +104,10 @@ GET /users/:id/activities
 获取当前登录用户的信息
 GET /user
 < 200
-{ // 数据参考「根据 ID 获取用户信息」部分 }
+{
+  // 数据参考「根据 ID 获取用户信息」部分
+  // 不过这里会额外返回 email 字段
+}
 
 GET /users/:id/douban_info
 < 200
