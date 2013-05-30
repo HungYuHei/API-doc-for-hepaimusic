@@ -227,7 +227,8 @@ GET /music/:id
 {
     "id"             : "512f2de982ae477f2f000013",
     "name"           : "歌名",
-    "description"    : "简介",
+    "lyric"          : "歌词",
+    "lyric_html"     : "转换成html后歌词",
     "duration"       : 60,      // 音乐时长，单位：秒
     "type"           : "类型",
     "genre"          : "曲风",
@@ -294,7 +295,7 @@ GET /music/genres
 
 发布音乐
 POST /music
-{ name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', audio: 音频文件, cover: 封面图片, from_app: true, published: false }
+{ name: '歌名', lyric: '歌词', type: '类型', genre: '曲风', tags: 'A,B,C', audio: 音频文件, cover: 封面图片, from_app: true, published: false }
 < 200
 {
     // 返回刚刚发布的音乐，数据请参考「根据 ID 获取音乐信息」
@@ -305,7 +306,7 @@ POST /music
 注意：`published` 只能从 `false` 修改为 `true`   
 即一旦公开了，不能再修改为非公开
 PUT /music/:id
-{ name: '歌名', description: '简介', type: '类型', genre: '曲风', tags: 'A,B,C', cover: 封面图片, audio: 音频文件, from_app: true, published: false }
+{ name: '歌名', lyric: '歌词', type: '类型', genre: '曲风', tags: 'A,B,C', cover: 封面图片, audio: 音频文件, from_app: true, published: false }
 < 200
 {
     // 返回修改成功的音乐，数据请参考「根据 ID 获取音乐信息」
