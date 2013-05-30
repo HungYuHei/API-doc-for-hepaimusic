@@ -37,7 +37,7 @@ GET /check/user/:field?value=xxx
     "name"    : "用户名",
     "nickname": "昵称",
     "email"   : "a@a.com",
-    avatar: {
+    avatars: {
         "24x24": "URL1",
         "50x50": "URL2",
         "80x80": "URL3",
@@ -79,7 +79,7 @@ GET  /users/:id_or_name
   "followers_count"    : 2,
   "created_at"         : "2011-12-22T21:30:27+08:00",
   "is_following"       : false,
-  "avatar"             : {
+  "avatars"             : {
     "24x24": "URL1",
     "50x50": "URL2",
     "80x80": "URL3",
@@ -162,7 +162,7 @@ PUT /user/avatar
 { avatar: 头像图片 }
 < 200
 {
-    avatar: {
+    avatars: {
         "24x24": "URL1",
         "50x50": "URL2",
         "80x80": "URL3",
@@ -250,7 +250,7 @@ GET /music/:id
       // 数据请参考「根据 ID 获取用户信息」
     },
     "likers": {
-        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "参考「根据 ID 获取用户信息」中返回的 avatar" },
+        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatars": "参考「根据 ID 获取用户信息」中返回的 avatars" },
         {...}
     }
 }
@@ -489,7 +489,7 @@ GET /activities
         // 数据请参考「根据 ID 获取用户信息」
     },
     "likers": [
-        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatar": "参考「根据 ID 获取用户信息」中返回的 avatar" },
+        { "id": "ID", "name": "用户名", "nickname": "昵称", "avatars": "参考「根据 ID 获取用户信息」中返回的 avatars" },
         {...}
     ]
 }
@@ -637,7 +637,7 @@ POST  /users/sign_in.json
   "auth_token"      : "TOKEN",
   "name"            : "NAME",
   "nickname"        : "nickname",
-  "avatar"          : {
+  "avatars"          : {
     "24x24": "URL1",
     "50x50": "URL2",
     "80x80": "URL3",
