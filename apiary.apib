@@ -417,7 +417,7 @@ DELETE /{music, posts}/:commentable_id/comments/:comment_id
 --
 Search 查找
 --
-{ "q": "查找关键字", c: "分类，请在[User, Post, Music]中选一个，注意大小写"}
+{ "q" : "查找关键字", "c" : "（可选）分类，请在 {user, post, music} 中选一个，为空时则表示所有分类"}
 GET /search
 < 200
 [
