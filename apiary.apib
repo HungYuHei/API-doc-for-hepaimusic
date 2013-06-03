@@ -137,6 +137,7 @@ DELETE /user/following/:user_id_or_name
 PUT /user
 {
   // 以下的个人资料字段任意可选
+  "avatar"        : 头像图片或URL
   "identity"      : "身份",
   "domains"       : "身份相关领域",
   "name"          : "用户名",
@@ -158,6 +159,8 @@ PUT /user
 { // 数据参部考「根据 ID 获取用户信息」部分 }
 
 更新用户头像
+
+**注意：此 API 将会在下一版本移除，更新头像操作可直接使用 `PUT /user` 接口**
 PUT /user/avatar
 { avatar: 头像图片或URL }
 < 200
