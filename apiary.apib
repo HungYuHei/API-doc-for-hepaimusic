@@ -272,6 +272,11 @@ DELETE /music/:id
 < 200
 { deleted: true }
 
+增加音乐收听次数
+PUT /music/:id/listen_count
+< 200
+{ listen_count: 2 }
+
 登录用户发布过的所有音乐（包括未公开的）
 
 可选参数：
