@@ -702,7 +702,7 @@ GET /messages
 ]
 
 根据user的id或者name获取当前用户与某个用户的对话
-GET /messages/:id_or_name
+GET /messages/:user_id_or_name
 < 200
 [
     // conversation中的message列表
@@ -719,7 +719,7 @@ GET /messages/:id_or_name
 ]
 
 根据user的id或者name发送私信给某个用户，发送人将设置为当前用户
-POST /messages/:id_or_name
+POST /messages/:user_id_or_name
 { "message": { "content": "message正文" } }
 < 201
 {
@@ -732,12 +732,12 @@ POST /messages/:id_or_name
 }
 
 根据user的id或者name删除当前用户与某个用户的整个对话（即对话下的所有私信）
-DELETE /messages/:id_or_name
+DELETE /messages/:user_id_or_name
 < 200
 { deleted: true }
 
 根据user的id或者name删除当前用户与某个用户对话下的具体某条私信
-DELETE /messages/:id_or_name/:message_id
+DELETE /messages/:user_id_or_name/:message_id
 < 200
 { deleted: true }
 
