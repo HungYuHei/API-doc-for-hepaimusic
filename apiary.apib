@@ -804,3 +804,24 @@ GET /categories/:id/tag_groups
         {...}
     ]
 }
+
+--
+Areas 地区列表
+--
+
+地区列表
+GET /areas
+< 200
+{
+  "provinces" : ["北京", "上海", "广东", ...],
+  "province_city_map" : {
+    "北京": null,
+    "上海": null,
+    "广东": [
+      "广州",
+      "佛山",
+      "东莞"
+    ],
+    ...
+  }
+}
