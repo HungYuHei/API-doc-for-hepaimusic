@@ -364,6 +364,56 @@ GET /user/collected/music
 ]
 
 --
+Post 信息
+--
+
+信息列表
+GET posts
+< 200
+[
+  // 数据参部考「根据 ID 获取信息」部分
+  {...},
+  {...}
+]
+
+根据 ID 获取信息
+GET /posts/:id
+< 200
+{
+  "id"             : ID,
+  "title"          : "标题",
+  "content_html"   : "经过 html 转义的正文",
+  "tags"           : ['A', 'B'],
+  "hits_count"     : 12,
+  "comments_count" : 8,
+  "own"            : true,
+  "created_at"     : "2013-06-27T13:40:41+08:00",
+  "user": {
+    // 数据请参考「根据 ID 获取用户信息」
+  }
+}
+
+发布信息
+POST /posts
+{ title: '标题', content: '正文内容', category_id: '分类id', tags: ['A', 'B'] }
+< 200
+{
+  // 返回刚刚发布的信息，数据请参考「根据 ID 获取信息」
+}
+
+修改音乐
+PUT /posts/:id
+{ title: '标题', content: '正文内容', category_id: '分类id', tags: ['A', 'B'] }
+< 200
+{
+  // 返回刚刚修改的信息，数据请参考「根据 ID 获取信息」
+}
+
+删除信息
+DELETE /posts/:id
+< 204
+
+--
 Comment 评论
 
 评论分为： **直接评论主题（音乐或信息）的评论** 和 **回复某评论的评论**
