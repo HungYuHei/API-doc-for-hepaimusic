@@ -173,8 +173,10 @@ PUT /user/avatar
     }
 }
 
-根据用户 ID 获取关注/粉丝列表
-GET /users/:id/{followers, following}
+获取用户关注/粉丝列表
+
+可选参数 `group: 'name'` : 获取指定分组下的关注列表（注意：粉丝列表不能分组）
+GET /users/:id_or_name/{followers, following}
 < 200
 [
     { // 数据参部考「根据 ID 获取用户信息」部分 },
@@ -888,3 +890,29 @@ GET /areas
     ...
   }
 }
+
+--
+Following-groups 好友分组
+--
+
+分组列表
+GET /user/following_groups
+< 200
+['A', 'B']
+
+新建分组
+POST /user/following_groups
+{ name: 'group-name' }
+< 201
+['A', 'B', 'group-name']
+
+修改分组
+PUT /user/following_groups/:group_name
+{ name: 'new-group-name' }
+< 200
+['A', 'B', 'new-group-name']
+
+删除分组
+DELETE /user/following_groups/:group_name
+< 200
+['A', 'B']
