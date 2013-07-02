@@ -413,6 +413,15 @@ PUT /posts/:id
 DELETE /posts/:id
 < 204
 
+指定用户发布过的信息列表
+GET /users/:id_or_name/posts
+< 200
+[
+  // 数据参部考「根据 ID 获取信息」部分
+  {...},
+  {...}
+]
+
 --
 Comment 评论
 
