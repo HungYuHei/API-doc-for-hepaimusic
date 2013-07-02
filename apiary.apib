@@ -544,6 +544,9 @@ Timeline 时间线
    </tr>
 </table>
 GET /activities
+{ "page": 5, "per": 10 } // per不指定时，默认为10
+{ "since_id": "50fe60da82ae476f06000005", "direction": "forward" }
+//since_id为event的id，存在的时候将会忽略page参数，direction不指定时默认为"forward"
 < 200
 {
     "id"          : "ID",
