@@ -830,29 +830,34 @@ Taxonomy 分类、Tags
 GET /categories
 < 200
 [
+  { // 数据参考「获取某个分类」},
+  {...}
+]
+
+获取某个分类
+GET /categories/:id
+< 200
+{
+  "id"    : "4f3b6fba8f0e7b7bff000001",
+  "name"  : "志愿者计划",
+  "order" : 1,
+  "tag_groups" : [
     {
-      "id"    : "4f3b6fba8f0e7b7bff000001",
-      "name"  : "志愿者计划",
-      "order" : 1,
-      "tag_groups" : [
+      "id"               : "4fb35b7d82ae47e4b200002b",
+      "name"             : "我要",
+      "multi_selectable" : false,
+      "tags": [
         {
-          "id"               : "4fb35b7d82ae47e4b200002b",
-          "name"             : "我要",
-          "multi_selectable" : false,
-          "tags": [
-            {
-              "id": "6ae35b7d82ae47e4b200005g",
-              "name": "卖二手乐器",
-              "order": 1
-            },
-            {...}
-          ]
+          "id": "6ae35b7d82ae47e4b200005g",
+          "name": "卖二手乐器",
+          "order": 1
         },
         {...}
-      ],
+      ]
     },
     {...}
-]
+  ],
+}
 
 --
 Areas 地区列表
