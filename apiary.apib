@@ -829,8 +829,13 @@ GET /feedback
     {...}
 ]
 
-赞成反馈(需登录)
+赞成(需登录)
 PUT /feedback/:id/vote
+< 200
+{ "vote_count" : "赞成的数量" }
+
+取消赞成(需登录)
+DELETE /feedback/:id/vote
 < 200
 { "vote_count" : "赞成的数量" }
 
