@@ -7,7 +7,7 @@ HOST: http://hepai.gaiamagic.com
 
 当前 API 版本为 `v1`
 
-完整访问地址：`http://<web_site>/<version>/<api>`，例如要获取音乐列表：http://hepaimusic.com/v1/music
+完整访问地址：`http://<web_site>/<version>/<api>`，例如要获取音乐列表：`http://hepaimusic.com/v1/music`
 
 ## Token
 
@@ -136,7 +136,7 @@ DELETE /user/following/:user_id_or_name
 * 如果修改了邮箱，系统会发送确认邮件到新邮箱地址，需要用户点击邮件中的确认链接才能最终完成更新邮箱操作。
 PUT /user
 {
-  // 以下的个人资料字段任意可选
+  // 以下修改个人资料字段（任意可选）
   "avatar"        : 头像图片或URL
   "identity"      : "身份",
   "domains"       : "身份相关领域",
@@ -829,13 +829,8 @@ GET /feedback
     {...}
 ]
 
-赞成(需登录)
+赞成反馈(需登录)
 PUT /feedback/:id/vote
-< 200
-{ "vote_count" : "赞成的数量" }
-
-取消赞成(需登录)
-DELETE /feedback/:id/vote
 < 200
 { "vote_count" : "赞成的数量" }
 
