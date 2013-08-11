@@ -66,8 +66,8 @@ GET  /users/:id_or_name
   "douban_name"        : "绑定的豆瓣名",
   "tqq_name"           : "绑定的腾讯微博名",
   "description"        : "个人简介",
-  "personal_page"      : "详细介绍（原始数据）",
-  "personal_page_html" : "详细介绍（html过滤后数据）",
+  "personal_page"      : "详细介绍",
+  "personal_page_html" : "html转义后的详细介绍",     // 只会包含<a><br><img>标签
   "identity"           : "身份",
   "domains"            : [ "音乐爱好者", "志愿者" ], // 身份领域
   "tags"               : ["tag1", "tag2"],           // 用户标签
@@ -216,7 +216,7 @@ GET /music/:id
     "id"             : "512f2de982ae477f2f000013",
     "name"           : "歌名",
     "lyric"          : "歌词",
-    "lyric_html"     : "转换成html后歌词",
+    "lyric_html"     : "html转义后的歌词", // 只会包含<a><br>标签
     "type"           : "类型",
     "genre"          : "曲风",
     "tags"           : "",
@@ -366,7 +366,8 @@ GET /posts/:id
 {
   "id"             : ID,
   "title"          : "标题",
-  "content_html"   : "经过 html 转义的正文",
+  "content"        : "正文",
+  "content_html"   : "html转义后的正文", // 只会包含<a><br><img>标签
   "tags"           : ['A', 'B'],
   "hits_count"     : 12,
   "comments_count" : 8,
@@ -422,11 +423,12 @@ Comment 评论
 GET /{music, posts}/:id/comments
 < 200
 {
-    "id"         : "51343ce78f0e7b78d6000002",
-    "content"    : "@outsummer 是啊，脸和嗓子像兄妹关系。",
-    "own"        : false, // 是否为登录用户发表的评论
-    "created_at" : "2013-03-04T14:19:19+08:00",
-    "actor"      : {
+    "id"           : "51343ce78f0e7b78d6000002",
+    "content"      : '正文',
+    "content_html" : 'html转义后的正文',          // 只会包含<a><br>标签
+    "own"          : false,                       // 是否为登录用户发表的评论
+    "created_at"   : "2013-03-04T14:19:19+08:00",
+    "actor"        : {
         // 此为发布此评论的用户
         // 数据请参考「根据 ID 获取用户信息」
     }
@@ -755,6 +757,7 @@ GET /messages/:user_id_or_name
     {
         "id"              : "message id",
         "content"         : "message 正文",
+        "content_html"    : "html转义后的正文",  // 只会包含<a><br>标签
         "state"           : "状态: new是未读, read是已读",
         "own"             : "是否登录用户发送的",
         "actor"           : "发送者的json(user,参照user返回的json)",
@@ -766,11 +769,12 @@ GET /messages/:user_id_or_name
 
 根据user的id或者name发送私信给某个用户，发送人将设置为当前用户
 POST /messages/:user_id_or_name
-{ "message": { "content": "message正文" } }
+{ content: "message正文" }
 < 201
 {
     "id"              : "message id",
     "content"         : "message 正文",
+    "content_html"    : "html转义后的正文",  // 只会包含<a><br>标签
     "state"           : "状态: new是未读, read是已读",
     "actor"           : "发送者的json(user,参照user返回的json)",
     "recipient"       : "接受者的json(user,参照user返回的json)",
