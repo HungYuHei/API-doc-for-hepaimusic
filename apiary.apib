@@ -106,11 +106,29 @@ GET /user
 
 GET /users/:id/douban_info
 < 200
-{ // 返回douban绑定时返回的数据，可能会有变动，请参考实际返回数据 }
+{
+  name            : "name",
+  description     : "Hello World",
+  avatar          : "http://img3.douban.com/icon/u36865564-2.jpg",
+  location        : "广东佛山",
+  link            : "http://www.douban.com/people/xxx/",
+  followers_count : null,
+  following_count : null,
+  updated_at      : null
+}
 
 GET /users/:id/weibo_info
 < 200
-{ // 返回weibo绑定时返回的数据，可能会有变动，请参考实际返回数据 }
+{
+  name            : "name",
+  description     : "description",
+  avatar          : "http://tp3.sinaimg.cn/1689213974/180/1266825599/1",
+  location        : "广东 佛山",
+  link            : "http://weibo.com/xxx",
+  followers_count : 273,
+  following_count : 365,
+  updated_at      : "2013-08-10T13:48:57+08:00"
+}
 
 检查是否关注了用户
 GET /user/following/:user_id_or_name
