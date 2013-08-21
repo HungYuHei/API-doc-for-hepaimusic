@@ -15,7 +15,7 @@ Token 需要通过 http header 的 `X-USER-ACCESS-TOKEN` 发送
 
 ## 分页
 
-多页 (列表) 时分页参数为： 页码（默认为 1）：`page`，每页记录数量（默认为 10）：`per`  
+多页 (列表) 时分页参数为： 页码（默认为 1）：`page`，每页记录数量（默认为 10）：`per`
 
 建议对分页参数显式传值，以免后期默认值可能会修改。
 
@@ -24,6 +24,15 @@ Token 需要通过 http header 的 `X-USER-ACCESS-TOKEN` 发送
 用户名是全站唯一的，昵称不是  
 用户名长度为 2-12 位，只支持英文、数字及下划线；昵称 2-31 位，支持中文、英文、数字、空格、下划线、「$」、「.」以及「!」  
 **在绝大多数位置应该是显示昵称，在评论中@的是用户名**
+
+## Tag 相关
+
+通常 Model 的附带属性是被定义为 Tag  
+目前被定义为 Tag 的属性有：
+
+* 音乐曲风、类型
+* 信息分类
+* 用户身份、领域、省市
 
 ---
 
@@ -66,14 +75,13 @@ GET  /users/:id_or_name
   "douban_name"        : "绑定的豆瓣名",
   "tqq_name"           : "绑定的腾讯微博名",
   "description"        : "个人简介",
+  "website"            : "个人网址",
   "personal_page"      : "详细介绍",
   "personal_page_html" : "html转义后的详细介绍",     // 只会包含<a><br><img>标签
-  "identity"           : "身份",
-  "domains"            : [ "音乐爱好者", "志愿者" ], // 身份领域
-  "tags"               : ["tag1", "tag2"],           // 用户标签
-  "website"            : "个人网址",
-  "province"           : "北京",
-  "city"               : "北京",
+  "identity"           : { // Tag Object },          // 身份
+  "domains"            : [{ // Tag Object }, ...],   // 身份领域
+  "province"           : { // Tag Object },
+  "city"               : { // Tag Object },
   "music_count"        : 3,
   "following_count"    : 4,
   "followers_count"    : 2,
@@ -86,13 +94,13 @@ GET  /users/:id_or_name
     "150x150": "URL4"
   },
   "sns": {
-    "douban": { 
+    "douban": {
       // 参考 GET /users/:id/douban_info
     },
-    "weibo": { 
+    "weibo": {
       // 参考 GET /users/:id/weibo_info
-    }  
-  } 
+    }
+  }
 }
 
 获取个人动态
@@ -164,14 +172,14 @@ PUT /user
 {
   // 以下修改个人资料字段（任意可选）
   "avatar"        : 头像图片或URL
-  "identity"      : "身份",
-  "domains"       : "身份相关领域",
+  "city_id"       : "对应Tag的id",
+  "province_id"   : "对应Tag的id",
+  "identity_id"   : "对应Tag的id",
+  "domain_ids"    : ['tag_id'],
   "name"          : "用户名",
   "nickname"      : "昵称",
   "website"       : "http://website.com",
   "description"   : "简介",
-  "province"      : "广东",
-  "city"          : "广州",
   "personal_page" : "详细介绍",
   // 以下是修改密码必须传入的字段
   "password"              : "新密码",
@@ -190,6 +198,35 @@ GET /users/:id/{followers, following}
 [
     { // 数据参部考「根据 ID 获取用户信息」部分 },
     {...}
+]
+
+获取用户身份列表
+GET /users/identities
+< 200
+[
+  {
+    id: "521455e682ae47df3100023c",
+    name: "音乐人",
+    slug: "musician",
+    order: 1,
+    groups: [
+      {
+        id: "521455e782ae47df31000268",
+        name: "音乐相关",
+        multi_selectable: false,
+        tags: [
+          {
+            id: "521455e482ae47df310001f0",
+            name: "主唱",
+            slug: "62086276",
+            order: 1,
+          },
+          ...
+        ]
+      }
+    ]
+  },
+  ...
 ]
 
 --
@@ -243,9 +280,9 @@ GET /music/:id
     "name"           : "歌名",
     "lyric"          : "歌词",
     "lyric_html"     : "html转义后的歌词", // 只会包含<a><br>标签
-    "type"           : "类型",
-    "genre"          : "曲风",
-    "tags"           : "",
+    "type"           : { // Tag Object },
+    "genre"          : { // Tag Object },
+    "tags"           : [{ // Tag Object }, ...],
     "audio_file"     : "音乐文件地址",
     "liked"          : false,   // 是否赞过
     "like_count"     : 1,       // 被赞次数
@@ -304,16 +341,32 @@ GET /user/music
 发布音乐可选的类型
 GET /music/types
 < 200
-[ "原创", "翻唱", "混音", "翻奏", "改编" ]
+[
+  {
+    id: "521455dd82ae47df31000007",
+    name: "混音",
+    slug: "remix",
+    order: 1
+  },
+  ...
+]
 
 发布音乐可选的曲风
 GET /music/genres
 < 200
-["流行", "摇滚", "电子", "民谣", "说唱", "爵士", "新世纪", "古典", "世界音乐", "节奏蓝调", "蓝调", "乡村"]
+[
+  {
+    id: "521455dd82ae47df31000007",
+    name: "摇滚",
+    slug: "rock",
+    order: 1
+  },
+  ...
+]
 
 发布音乐
 POST /music
-{ name: '歌名', lyric: '歌词', type: '类型', genre: '曲风', tags: 'A,B,C', audio: 音频文件, cover: 封面图片, from_app: true, published: false }
+{ name: '歌名', lyric: '歌词', type_id: '对应Tag的id', genre_id: '对应Tag的id', tag_ids: ['对应Tag的id'], audio: 音频文件, cover: 封面图片, from_app: true, published: false }
 < 200
 {
     // 返回刚刚发布的音乐，数据请参考「根据 ID 获取音乐信息」
@@ -321,10 +374,10 @@ POST /music
 
 修改音乐
 
-注意：`published` 只能从 `false` 修改为 `true`   
+注意：`published` 只能从 `false` 修改为 `true`
 即一旦公开了，不能再修改为非公开
 PUT /music/:id
-{ name: '歌名', lyric: '歌词', type: '类型', genre: '曲风', tags: 'A,B,C', cover: 封面图片, audio: 音频文件, from_app: true, published: false }
+{ name: '歌名', lyric: '歌词', type_id: '对应Tag的id', genre_id: '对应Tag的id', tag_ids: ['对应Tag的id'], cover: 封面图片, audio: 音频文件, from_app: true, published: false }
 < 200
 {
     // 返回修改成功的音乐，数据请参考「根据 ID 获取音乐信息」
@@ -394,7 +447,8 @@ GET /posts/:id
   "title"          : "标题",
   "content"        : "正文",
   "content_html"   : "html转义后的正文", // 只会包含<a><br><img>标签
-  "tags"           : ['A', 'B'],
+  "category"       : { // Tag Object },
+  "tags"           : [{ // Tag Object }, ...],
   "hits_count"     : 12,
   "comments_count" : 8,
   "own"            : true,
@@ -406,15 +460,15 @@ GET /posts/:id
 
 发布信息
 POST /posts
-{ title: '标题', content: '正文内容', category_id: '分类id', tags: ['A', 'B'] }
-< 200
+{ title: '标题', content: '正文内容', category_id: '实际为对应的tag_id', tag_ids: ['id1', 'id2'] }
+< 201
 {
   // 返回刚刚发布的信息，数据请参考「根据 ID 获取信息」
 }
 
-修改音乐
+修改信息
 PUT /posts/:id
-{ title: '标题', content: '正文内容', category_id: '分类id', tags: ['A', 'B'] }
+{ title: '标题', content: '正文内容', category_id: '实际为对应的tag_id', tag_ids: ['id1', 'id2'] }
 < 200
 {
   // 返回刚刚修改的信息，数据请参考「根据 ID 获取信息」
@@ -443,8 +497,8 @@ Comment 评论
 
 分页参数是对评论进行分页
 
-**注意：**  
-列表只返回直接评论音乐的评论  
+**注意：**
+列表只返回直接评论音乐的评论
 如果要返回所以评论（包括回复的），可以传入参数 `with_replies: true`
 GET /{music, posts}/:id/comments
 < 200
@@ -512,9 +566,9 @@ Timeline 时间线
 
 简单一句话理解就是：
 
-`actor` `action` `target`  
+`actor` `action` `target`
 
-`用户A` `赞` `音乐B`  
+`用户A` `赞` `音乐B`
 
 `用户C` `发布` `音乐D`
 <table>
@@ -684,7 +738,7 @@ Notification-Setting 用户通知设置
 获取用户通知设置
 GET /user/settings/notification
 < 200
-{ 
+{
     "message_notification"  : true,
     "comment_notification"  : true,
     "followed_notification" : true
@@ -720,19 +774,18 @@ POST  /users/sign_in.json
   "auth_token"      : "TOKEN",
   "name"            : "NAME",
   "nickname"        : "nickname",
-  "avatars"          : {
+  "avatars"         : {
     "24x24": "URL1",
     "50x50": "URL2",
     "80x80": "URL3",
     "150x150": "URL4"
   },
   "description"     : "description",
-  "identity"        : "identity",
-  "domains"         : ["A", "B"],
-  "tags"            : ["C", "D"],
+  "province"        : { // Tag Object },
+  "city"            : { // Tag Object },
+  "identity"        : { // Tag Object },
+  "domains"         : [{ // Tag Object }, ...],
   "website"         : "http://xxx",
-  "province"        : "",
-  "city"            : "",
   "following_count" : 3,
   "followers_count" : 1,
   "created_at"      : "2012-08-30T19:06:32+08:00",
@@ -804,7 +857,7 @@ POST /messages/:user_id_or_name
     "state"           : "状态: new是未读, read是已读",
     "actor"           : "发送者的json(user,参照user返回的json)",
     "recipient"       : "接受者的json(user,参照user返回的json)",
-    "conversation_id" : "对应conversation的id" 
+    "conversation_id" : "对应conversation的id"
 }
 
 根据user的id或者name删除当前用户与某个用户的整个对话（即对话下的所有私信）
@@ -849,10 +902,10 @@ PUT /feedback/:id/vote
 { "vote_count" : "赞成的数量" }
 
 --
-Taxonomy 分类、Tags
+Tags
 --
 
-获取所有分类
+获取所有信息分类
 GET /categories
 < 200
 [
@@ -866,17 +919,19 @@ GET /categories/:id
 {
   "id"    : "4f3b6fba8f0e7b7bff000001",
   "name"  : "志愿者计划",
+  "slug"  : "slug"
   "order" : 1,
-  "tag_groups" : [
+  "groups" : [
     {
       "id"               : "4fb35b7d82ae47e4b200002b",
       "name"             : "我要",
       "multi_selectable" : false,
       "tags": [
         {
-          "id": "6ae35b7d82ae47e4b200005g",
-          "name": "卖二手乐器",
-          "order": 1
+          "id"    : "6ae35b7d82ae47e4b200005g",
+          "name"  : "卖二手乐器",
+          "slug"  : "slug"
+          "order" : 1
         },
         {...}
       ]
@@ -892,16 +947,32 @@ Areas 地区列表
 地区列表
 GET /areas
 < 200
-{
-  "provinces" : ["北京", "上海", "广东", ...],
-  "province_city_map" : {
-    "北京": null,
-    "上海": null,
-    "广东": [
-      "广州",
-      "佛山",
-      "东莞"
-    ],
-    ...
-  }
-}
+[
+  {
+    id: ID,
+    name: "北京",
+    slug: "25391085",
+    order: 1
+  },
+  {
+    id: ID,
+    name: "广东",
+    slug: "95989296",
+    order: 1,
+    cities: [
+      {
+        id: ID,
+        name: "广州",
+        slug: "38354950",
+        order: 1
+      },
+      {
+        id: ID,
+        name: "深圳",
+        slug: "71649796",
+        order: 1
+      }
+    ]
+  },
+  ...
+]
