@@ -487,6 +487,41 @@ GET /users/:id_or_name/posts
   {...}
 ]
 
+获取所有信息分类
+get /posts/categories
+< 200
+[
+  { // 数据参考「获取某个分类」},
+  {...}
+]
+
+获取信息某个分类
+get /posts/categories/:id
+< 200
+{
+  "id"    : "4f3b6fba8f0e7b7bff000001",
+  "name"  : "志愿者计划",
+  "slug"  : "slug"
+  "order" : 1,
+  "groups" : [
+    {
+      "id"               : "4fb35b7d82ae47e4b200002b",
+      "name"             : "我要",
+      "multi_selectable" : false,
+      "tags": [
+        {
+          "id"    : "6ae35b7d82ae47e4b200005g",
+          "name"  : "卖二手乐器",
+          "slug"  : "slug"
+          "order" : 1
+        },
+        {...}
+      ]
+    },
+    {...}
+  ],
+}
+
 --
 Comment 评论
 
@@ -900,45 +935,6 @@ GET /feedback
 PUT /feedback/:id/vote
 < 200
 { "vote_count" : "赞成的数量" }
-
---
-Tags
---
-
-获取所有信息分类
-GET /categories
-< 200
-[
-  { // 数据参考「获取某个分类」},
-  {...}
-]
-
-获取某个分类
-GET /categories/:id
-< 200
-{
-  "id"    : "4f3b6fba8f0e7b7bff000001",
-  "name"  : "志愿者计划",
-  "slug"  : "slug"
-  "order" : 1,
-  "groups" : [
-    {
-      "id"               : "4fb35b7d82ae47e4b200002b",
-      "name"             : "我要",
-      "multi_selectable" : false,
-      "tags": [
-        {
-          "id"    : "6ae35b7d82ae47e4b200005g",
-          "name"  : "卖二手乐器",
-          "slug"  : "slug"
-          "order" : 1
-        },
-        {...}
-      ]
-    },
-    {...}
-  ],
-}
 
 --
 Areas 地区列表
