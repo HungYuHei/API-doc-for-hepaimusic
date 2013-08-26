@@ -665,6 +665,10 @@ GET /activities
         // 数据请参考「根据 ID 获取音乐信息」
     },
     "actors":[ 
+      // 注意：
+      // activities type 
+        // 为create，actors仅是发布者本身；
+        // 为likers，actors按照likers时间排序，最先的一个就是本activity产生者
       {// 数据请参考「根据 ID 获取用户信息」},
       {// 数据请参考「根据 ID 获取用户信息」}
     ],
