@@ -980,3 +980,22 @@ GET /areas
   },
   ...
 ]
+
+--
+Link获取
+--
+
+所有Links返回
+GET /links
+< 200
+[
+  { 
+    id: ID,
+    name: "link_name",
+    url: "link_url",
+    image: { 
+      url: "image_url"
+    }
+  },
+  ...
+]
