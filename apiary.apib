@@ -71,9 +71,6 @@ GET  /users/:id_or_name
   "id"                 : "4ef330f38f0e7b0b5b00001b",
   "name"               : "用户名",
   "nickname"           : "昵称",
-  "weibo_name"         : "绑定的新浪微博名",
-  "douban_name"        : "绑定的豆瓣名",
-  "tqq_name"           : "绑定的腾讯微博名",
   "description"        : "个人简介",
   "website"            : "个人网址",
   "personal_page"      : "详细介绍",
@@ -94,6 +91,9 @@ GET  /users/:id_or_name
     "150x150": "URL4"
   },
   "sns": {
+    "tqq": {
+      // 参考 GET /users/:id/tqq
+    },
     "douban": {
       // 参考 GET /users/:id/douban_info
     },
@@ -128,8 +128,8 @@ GET /users/:id/douban_info
   avatar          : "http://img3.douban.com/icon/u36865564-2.jpg",
   location        : "广东佛山",
   link            : "http://www.douban.com/people/xxx/",
-  followers_count : null,
-  following_count : null,
+  followers_count : null, // 此字段豆瓣没有数据，只返回null
+  following_count : null, // 此字段豆瓣没有数据，只返回null
   updated_at      : null
 }
 
@@ -145,6 +145,10 @@ GET /users/:id/weibo_info
   following_count : 365,
   updated_at      : "2013-08-10T13:48:57+08:00"
 }
+
+GET /users/:id/tqq_info
+< 200
+{ // 参考 `GET /users/:id/weibo_info` }
 
 检查是否关注了用户
 GET /user/following/:user_id_or_name
