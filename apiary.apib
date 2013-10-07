@@ -986,10 +986,50 @@ GET /areas
 ]
 
 --
-Link获取
+Tag 标签
 --
 
-所有Links返回，现在是返回全部，没有分页
+标签列表
+GET /tags
+< 200
+[
+  {
+    id: "521455e682ae47df3100023e",
+    name: "个人",
+    slug: "personal",
+    order: 1
+  },
+  {...}
+]
+
+根据 slug 获取标签
+GET /tags/:slug
+< 200
+{
+  id: "521455e682ae47df3100023e",
+  name: "个人",
+  slug: "personal",
+  order: 1
+}
+
+根据 slug 获取属于此标签的Taggable（音乐、信息、用户）  
+可选参数：
+
+    `type` - 指定只返回某个类型的Taggable，可选值：music, post, user
+GET /tags/:slug/taggable
+< 200
+[
+  { // Music },
+  { // Post },
+  { // User },
+  {...}
+]
+
+--
+Link 友情链接
+--
+
+返回所有友情链接，现在是返回全部，没有分页
 GET /links
 < 200
 [
