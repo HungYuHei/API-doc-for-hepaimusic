@@ -1013,10 +1013,12 @@ GET /tags/:slug
 }
 
 根据 slug 获取属于此标签的Taggable（音乐、信息、用户）  
-可选参数：
+参数：
 
-    `type` - 指定只返回某个类型的Taggable，可选值：music, post, user
-GET /tags/:slug/taggable
+    slugs    - 要查询的slug，单个值可以只传String，多个值必须是Array（必须选项）
+    strategy - 查询（筛选）策略，默认为union，即「任意满足其中一个slug」，当值为intersect时则表示「同时满足」
+    type     - 指定只返回某个类型的Taggable（可选选项），可能的值：music, post, user
+GET /tags/taggable?slugs[]=a&slugs[]=b
 < 200
 [
   { // Music },
