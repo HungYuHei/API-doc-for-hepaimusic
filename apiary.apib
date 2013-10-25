@@ -854,6 +854,16 @@ POST  /users.json
 DELETE /users/sign_out.json
 < 204
 
+Sns( tqq weibo ) 登录
+POST /users/sns_login.json
+{ "uid": "uid", "nickname": "Nickname", "token": "token", "secret": "secret", "provider": "tqq | weibo", "avatar": "avatar", "email": "email" }
+< 200
+// 登录成功：
+{  }// 参考 POST  /users/sign_in.json 返回
+//登录失败
+{{ "success": false, "message": "tqq | weibo uid or nickname must be provide" }, "status": 400 } // 格式错误
+{{ "success": false }, "status": 400 } // 登录失败
+
 --
 Message 私信
 **注意：私信下所有API都需要登录**
