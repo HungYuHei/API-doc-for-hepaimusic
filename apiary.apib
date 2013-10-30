@@ -876,8 +876,6 @@ POST /users/sns_login
 
 绑定
 
-------
-
 POST /user/sns_binding
 { provider: 'tqq or weibo or douban', uid: '', token: '', secret: '' }
 < 200
@@ -885,8 +883,6 @@ POST /user/sns_binding
 { success: false, message: 'xx' } // 绑定失败
 
 解除绑定
-
-------
 
 DELETE /user/sns_binding
 { provider: 'tqq or weibo or douban' }
