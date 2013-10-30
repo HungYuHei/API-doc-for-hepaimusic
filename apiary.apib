@@ -854,15 +854,45 @@ POST  /users.json
 DELETE /users/sign_out.json
 < 204
 
-Sns( tqq weibo ) 登录
-POST /users/sns_login.json
-{ "uid": "uid", "nickname": "Nickname", "token": "token", "secret": "secret", "provider": "tqq | weibo", "avatar": "avatar", "email": "email" }
+--
+SNS-Releated sns登录、绑定、解除绑定
+--
+
+登录
+
+------
+
+根据provider和uid登录  
+如果账号未绑定，则会创建新用户并绑定，
+此时需要另外传入其它创建用户所需字段（avatar, secret, nickname 为可选）
+
+POST /users/sns_login
+{ provider: 'tqq or weibo or douban', uid: '', token: '', name: '', email: '', avatar: 'image_url', secret: '', nickname: '', password: '', password_confirmation: '' }
 < 200
 // 登录成功：
-{  }// 参考 POST  /users/sign_in.json 返回
-//登录失败
-{{ "success": false, "message": "tqq | weibo uid or nickname must be provide" }, "status": 400 } // 格式错误
-{{ "success": false }, "status": 400 } // 登录失败
+{ // 参考 POST /users/sign_in.json }
+// 登录失败
+{ success: false, message: "", "status": 400 }
+
+绑定
+
+------
+
+POST /user/sns_binding
+{ provider: 'tqq or weibo or douban', uid: '', token: '', secret: '' }
+< 200
+{ success: true } // 绑定成功
+{ success: false, message: 'xx' } // 绑定失败
+
+解除绑定
+
+------
+
+DELETE /user/sns_binding
+{ provider: 'tqq or weibo or douban' }
+< 200
+{ success: true } // 解除绑定成功
+{ success: false, message: 'xx' } // 解除绑定失败
 
 --
 Message 私信
