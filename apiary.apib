@@ -39,21 +39,11 @@ Token 需要通过 http header 的 `X-USER-ACCESS-TOKEN` 发送
 --
 User 用户
 --
-检查用户字段是否存在
+检查用户字段是否存在  
+支持检查的字段为name和nickname
 GET /check/user/:field?value=xxx
 < 200
-{
-    "name"    : "用户名",
-    "nickname": "昵称",
-    "email"   : "a@a.com",
-    avatars: {
-        "24x24": "URL1",
-        "50x50": "URL2",
-        "80x80": "URL3",
-        "150x150": "URL4"
-    }
-}
-// 不存在则返回 404
+{ exist: true }
 
 黄页（用户列表）
 GET /users
