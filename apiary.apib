@@ -848,25 +848,21 @@ DELETE /users/sign_out.json
 SNS-Releated sns登录、绑定、解除绑定
 --
 
-登录
+注册
 
 ------
 
-根据provider, uid, token登录  
-如果账号未绑定，则会创建新用户并绑定，
-此时需要另外传入其它创建用户所需字段（avatar, secret, nickname 为可选）
+根据provider, uid, token注册  
+avatar, secret, nickname 为可选字段
 
-POST /users/sns_login
+POST /users/sns_signup
 { provider: '', uid: '', token: '', name: '', email: '', avatar: 'image_url', secret: '', nickname: '', password: '', password_confirmation: '' }
 < 200
-// 登录成功：
-{ // 参考 GET /v1/user }
-// 登录失败
-{ success: false, message: "", "status": 400 }
+{ // 参考 GET 常规注册接口 }
 
 检查是否绑定
 
-GET /users/check_sns_binding
+GET /users/sns_binding
 { provider: '', uid: '', token: '' }
 < 200
 { exist: true } // 已绑定
