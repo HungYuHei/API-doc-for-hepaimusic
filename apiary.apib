@@ -1045,7 +1045,7 @@ GET /tags/:slug
 参数：
 
     slugs    - 要查询的slug，单个值可以只传String，多个值必须是Array（必须选项）
-    strategy - 查询（筛选）策略，默认为union，即「任意满足其中一个slug」，当值为intersect时则表示「同时满足」
+    strategy - 查询（筛选）策略，默认为union，即「或」，当值为intersect时则表示「且」
     type     - 指定只返回某个类型的Taggable（可选选项），可能的值：music, post, user
 GET /tags/taggable?slugs[]=a&slugs[]=b
 < 200
