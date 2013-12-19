@@ -677,7 +677,7 @@ Notification 通知
 
 `state` : *unread* 时表示只获取未读通知，*read* 为只获取已读通知，不传此值则是获取所有通知
 
-`types`，表示某类别的通知，多个类别通过 Array 传入，不传此值表示所有未读通知。
+`types` : 表示某类别的通知，多个类别通过 Array 传入，不传此值表示所有类别通知。
 `types` 值：
 
     comment - 评论
@@ -686,6 +686,7 @@ Notification 通知
     message - 私信
     follow  - 关注
     like    - 赞
+    jam     - jam
 
 ------
 
@@ -713,7 +714,7 @@ GET /user/notifications
 [
     {
         "id"         : "50fe60da82ae476f06000005",
-        "operation"  : "like", // 可能的值：(comment mention reply message follow like)
+        "operation"  : "like", // 可能的值：(comment mention reply message follow like jam)
         "read"       : false,
         "created_at" : "2013-01-22T17:50:18+08:00",
         "notifiable" : {
