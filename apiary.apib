@@ -797,12 +797,12 @@ PUT /user/settings/notification
 }
 
 --
-Session 登录、注册（注意不需加上 API 版本）
+Session 登录、注册
 --
 
 登录
-POST  /users/sign_in.json
-{ "user": { "email": "EMAIL", "password": "PWD" } }
+POST /users/login
+{ "email": "EMAIL", "password": "PWD" }
 < 200
 // 登录成功：
 {
@@ -821,6 +821,7 @@ POST  /users/sign_in.json
   "city"            : { // Tag Object },
   "identity"        : { // Tag Object },
   "domains"         : [{ // Tag Object }, ...],
+  "sns"             : { douban: {}, weibo: {}, tqq: {} },
   "website"         : "http://xxx",
   "following_count" : 3,
   "followers_count" : 1,
@@ -831,8 +832,8 @@ POST  /users/sign_in.json
 { "error": "MESSAGE" }
 
 注册
-POST  /users.json
-{ "user": { "email": "EMAIL", "name": "NAME", "password": "PWD", "password_confirmation": "PWD" } }
+POST /users
+{ "email": "EMAIL", "name": "NAME", "password": "PWD", "password_confirmation": "PWD" }
 < 200
 // 注册成功：
 { "auth_token": "TOKEN" }
@@ -840,7 +841,7 @@ POST  /users.json
 { "errors" :{"email" : ["邮箱格式不正确"] }} // 其它字段的错误信息类似
 
 退出登录
-DELETE /users/sign_out.json
+DELETE /users/logout
 < 204
 
 --
